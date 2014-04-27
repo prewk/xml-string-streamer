@@ -5,9 +5,6 @@ class XmlStringStreamer
     private $callback;
     private $streamProvider;
 
-    private $callbackHits = 0;
-    private $chunk;
-
     public function __construct(XmlStringStreamer\iStreamProvider $streamProvider, $callback, $options = array())
     {
         $this->streamProvider = $streamProvider;
