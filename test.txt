@@ -1,0 +1,1572 @@
+PHPUnit 4.0.14 by Sebastian Bergmann.
+
+Configuration read from /Users/oskar/src/xml-string-streamer/phpunit.xml.dist
+
+./private/tmp/xml-string-streamer-testeXh1Wh--chunk--
+<root-node><node><ch
+---------
+--chunk--
+ild-a>fuga</child-a>
+---------
+0 ######
+depth: 0
+<node><child-a>fuga</child-a>
+####
+
+########################
+1 ######
+depth: 1
+<child-a>fuga</child-a>
+####
+<node>
+########################
+2 ######
+depth: 2
+fuga</child-a>
+####
+<node><child-a>
+########################
+3 ######
+depth: 1
+
+####
+<node><child-a>fuga</child-a>
+########################
+--chunk--
+<child-b>sit</child-
+---------
+4 ######
+depth: 0
+<node><child-a>fuga</child-a><child-b>sit</child-
+####
+
+########################
+5 ######
+depth: 1
+<child-a>fuga</child-a><child-b>sit</child-
+####
+<node>
+########################
+6 ######
+depth: 2
+fuga</child-a><child-b>sit</child-
+####
+<node><child-a>
+########################
+7 ######
+depth: 1
+<child-b>sit</child-
+####
+<node><child-a>fuga</child-a>
+########################
+8 ######
+depth: 2
+sit</child-
+####
+<node><child-a>fuga</child-a><child-b>
+########################
+--chunk--
+b></node><node><chil
+---------
+9 ######
+depth: 0
+<node><child-a>fuga</child-a><child-b>sit</child-b></node><node><chil
+####
+
+########################
+10 ######
+depth: 1
+<child-a>fuga</child-a><child-b>sit</child-b></node><node><chil
+####
+<node>
+########################
+11 ######
+depth: 2
+fuga</child-a><child-b>sit</child-b></node><node><chil
+####
+<node><child-a>
+########################
+12 ######
+depth: 1
+<child-b>sit</child-b></node><node><chil
+####
+<node><child-a>fuga</child-a>
+########################
+13 ######
+depth: 2
+sit</child-b></node><node><chil
+####
+<node><child-a>fuga</child-a><child-b>
+########################
+14 ######
+depth: 1
+</node><node><chil
+####
+<node><child-a>fuga</child-a><child-b>sit</child-b>
+########################
+%%%%%%%%%%%%%%%%% CALLBACK %%%%%%%%%%%%%%%%
+<node><child-a>fuga</child-a><child-b>sit</child-b></node>
+%%%%%
+15 ######
+depth: 0
+<node><chil
+####
+
+########################
+16 ######
+depth: 1
+<chil
+####
+<node>
+########################
+--chunk--
+d-a>placeat</child-a
+---------
+17 ######
+depth: 0
+<node><child-a>placeat</child-a
+####
+
+########################
+18 ######
+depth: 1
+<child-a>placeat</child-a
+####
+<node>
+########################
+19 ######
+depth: 2
+placeat</child-a
+####
+<node><child-a>
+########################
+--chunk--
+><child-b>libero</ch
+---------
+20 ######
+depth: 0
+<node><child-a>placeat</child-a><child-b>libero</ch
+####
+
+########################
+21 ######
+depth: 1
+<child-a>placeat</child-a><child-b>libero</ch
+####
+<node>
+########################
+22 ######
+depth: 2
+placeat</child-a><child-b>libero</ch
+####
+<node><child-a>
+########################
+23 ######
+depth: 1
+<child-b>libero</ch
+####
+<node><child-a>placeat</child-a>
+########################
+24 ######
+depth: 2
+libero</ch
+####
+<node><child-a>placeat</child-a><child-b>
+########################
+--chunk--
+ild-b></node><node><
+---------
+25 ######
+depth: 0
+<node><child-a>placeat</child-a><child-b>libero</child-b></node><node><
+####
+
+########################
+26 ######
+depth: 1
+<child-a>placeat</child-a><child-b>libero</child-b></node><node><
+####
+<node>
+########################
+27 ######
+depth: 2
+placeat</child-a><child-b>libero</child-b></node><node><
+####
+<node><child-a>
+########################
+28 ######
+depth: 1
+<child-b>libero</child-b></node><node><
+####
+<node><child-a>placeat</child-a>
+########################
+29 ######
+depth: 2
+libero</child-b></node><node><
+####
+<node><child-a>placeat</child-a><child-b>
+########################
+30 ######
+depth: 1
+</node><node><
+####
+<node><child-a>placeat</child-a><child-b>libero</child-b>
+########################
+%%%%%%%%%%%%%%%%% CALLBACK %%%%%%%%%%%%%%%%
+<node><child-a>placeat</child-a><child-b>libero</child-b></node>
+%%%%%
+31 ######
+depth: 0
+<node><
+####
+
+########################
+32 ######
+depth: 1
+<
+####
+<node>
+########################
+--chunk--
+child-a>sed</child-a
+---------
+33 ######
+depth: 0
+<node><child-a>sed</child-a
+####
+
+########################
+34 ######
+depth: 1
+<child-a>sed</child-a
+####
+<node>
+########################
+35 ######
+depth: 2
+sed</child-a
+####
+<node><child-a>
+########################
+--chunk--
+><child-b>autem</chi
+---------
+36 ######
+depth: 0
+<node><child-a>sed</child-a><child-b>autem</chi
+####
+
+########################
+37 ######
+depth: 1
+<child-a>sed</child-a><child-b>autem</chi
+####
+<node>
+########################
+38 ######
+depth: 2
+sed</child-a><child-b>autem</chi
+####
+<node><child-a>
+########################
+39 ######
+depth: 1
+<child-b>autem</chi
+####
+<node><child-a>sed</child-a>
+########################
+40 ######
+depth: 2
+autem</chi
+####
+<node><child-a>sed</child-a><child-b>
+########################
+--chunk--
+ld-b></node><node><c
+---------
+41 ######
+depth: 0
+<node><child-a>sed</child-a><child-b>autem</child-b></node><node><c
+####
+
+########################
+42 ######
+depth: 1
+<child-a>sed</child-a><child-b>autem</child-b></node><node><c
+####
+<node>
+########################
+43 ######
+depth: 2
+sed</child-a><child-b>autem</child-b></node><node><c
+####
+<node><child-a>
+########################
+44 ######
+depth: 1
+<child-b>autem</child-b></node><node><c
+####
+<node><child-a>sed</child-a>
+########################
+45 ######
+depth: 2
+autem</child-b></node><node><c
+####
+<node><child-a>sed</child-a><child-b>
+########################
+46 ######
+depth: 1
+</node><node><c
+####
+<node><child-a>sed</child-a><child-b>autem</child-b>
+########################
+%%%%%%%%%%%%%%%%% CALLBACK %%%%%%%%%%%%%%%%
+<node><child-a>sed</child-a><child-b>autem</child-b></node>
+%%%%%
+47 ######
+depth: 0
+<node><c
+####
+
+########################
+48 ######
+depth: 1
+<c
+####
+<node>
+########################
+--chunk--
+hild-a>voluptates</c
+---------
+49 ######
+depth: 0
+<node><child-a>voluptates</c
+####
+
+########################
+50 ######
+depth: 1
+<child-a>voluptates</c
+####
+<node>
+########################
+51 ######
+depth: 2
+voluptates</c
+####
+<node><child-a>
+########################
+--chunk--
+hild-a><child-b>haru
+---------
+52 ######
+depth: 0
+<node><child-a>voluptates</child-a><child-b>haru
+####
+
+########################
+53 ######
+depth: 1
+<child-a>voluptates</child-a><child-b>haru
+####
+<node>
+########################
+54 ######
+depth: 2
+voluptates</child-a><child-b>haru
+####
+<node><child-a>
+########################
+55 ######
+depth: 1
+<child-b>haru
+####
+<node><child-a>voluptates</child-a>
+########################
+56 ######
+depth: 2
+haru
+####
+<node><child-a>voluptates</child-a><child-b>
+########################
+--chunk--
+m</child-b></node><n
+---------
+57 ######
+depth: 0
+<node><child-a>voluptates</child-a><child-b>harum</child-b></node><n
+####
+
+########################
+58 ######
+depth: 1
+<child-a>voluptates</child-a><child-b>harum</child-b></node><n
+####
+<node>
+########################
+59 ######
+depth: 2
+voluptates</child-a><child-b>harum</child-b></node><n
+####
+<node><child-a>
+########################
+60 ######
+depth: 1
+<child-b>harum</child-b></node><n
+####
+<node><child-a>voluptates</child-a>
+########################
+61 ######
+depth: 2
+harum</child-b></node><n
+####
+<node><child-a>voluptates</child-a><child-b>
+########################
+62 ######
+depth: 1
+</node><n
+####
+<node><child-a>voluptates</child-a><child-b>harum</child-b>
+########################
+%%%%%%%%%%%%%%%%% CALLBACK %%%%%%%%%%%%%%%%
+<node><child-a>voluptates</child-a><child-b>harum</child-b></node>
+%%%%%
+63 ######
+depth: 0
+<n
+####
+
+########################
+--chunk--
+ode><child-a>similiq
+---------
+64 ######
+depth: 0
+<node><child-a>similiq
+####
+
+########################
+65 ######
+depth: 1
+<child-a>similiq
+####
+<node>
+########################
+66 ######
+depth: 2
+similiq
+####
+<node><child-a>
+########################
+--chunk--
+ue</child-a><child-b
+---------
+67 ######
+depth: 0
+<node><child-a>similique</child-a><child-b
+####
+
+########################
+68 ######
+depth: 1
+<child-a>similique</child-a><child-b
+####
+<node>
+########################
+69 ######
+depth: 2
+similique</child-a><child-b
+####
+<node><child-a>
+########################
+70 ######
+depth: 1
+<child-b
+####
+<node><child-a>similique</child-a>
+########################
+--chunk--
+>in</child-b></node>
+---------
+71 ######
+depth: 0
+<node><child-a>similique</child-a><child-b>in</child-b></node>
+####
+
+########################
+72 ######
+depth: 1
+<child-a>similique</child-a><child-b>in</child-b></node>
+####
+<node>
+########################
+73 ######
+depth: 2
+similique</child-a><child-b>in</child-b></node>
+####
+<node><child-a>
+########################
+74 ######
+depth: 1
+<child-b>in</child-b></node>
+####
+<node><child-a>similique</child-a>
+########################
+75 ######
+depth: 2
+in</child-b></node>
+####
+<node><child-a>similique</child-a><child-b>
+########################
+76 ######
+depth: 1
+</node>
+####
+<node><child-a>similique</child-a><child-b>in</child-b>
+########################
+%%%%%%%%%%%%%%%%% CALLBACK %%%%%%%%%%%%%%%%
+<node><child-a>similique</child-a><child-b>in</child-b></node>
+%%%%%
+77 ######
+depth: 0
+
+####
+
+########################
+--chunk--
+<node><child-a>est</
+---------
+78 ######
+depth: 0
+<node><child-a>est</
+####
+
+########################
+79 ######
+depth: 1
+<child-a>est</
+####
+<node>
+########################
+80 ######
+depth: 2
+est</
+####
+<node><child-a>
+########################
+--chunk--
+child-a><child-b>off
+---------
+81 ######
+depth: 0
+<node><child-a>est</child-a><child-b>off
+####
+
+########################
+82 ######
+depth: 1
+<child-a>est</child-a><child-b>off
+####
+<node>
+########################
+83 ######
+depth: 2
+est</child-a><child-b>off
+####
+<node><child-a>
+########################
+84 ######
+depth: 1
+<child-b>off
+####
+<node><child-a>est</child-a>
+########################
+85 ######
+depth: 2
+off
+####
+<node><child-a>est</child-a><child-b>
+########################
+--chunk--
+iciis</child-b></nod
+---------
+86 ######
+depth: 0
+<node><child-a>est</child-a><child-b>officiis</child-b></nod
+####
+
+########################
+87 ######
+depth: 1
+<child-a>est</child-a><child-b>officiis</child-b></nod
+####
+<node>
+########################
+88 ######
+depth: 2
+est</child-a><child-b>officiis</child-b></nod
+####
+<node><child-a>
+########################
+89 ######
+depth: 1
+<child-b>officiis</child-b></nod
+####
+<node><child-a>est</child-a>
+########################
+90 ######
+depth: 2
+officiis</child-b></nod
+####
+<node><child-a>est</child-a><child-b>
+########################
+91 ######
+depth: 1
+</nod
+####
+<node><child-a>est</child-a><child-b>officiis</child-b>
+########################
+--chunk--
+e><node><child-a>nes
+---------
+92 ######
+depth: 0
+<node><child-a>est</child-a><child-b>officiis</child-b></node><node><child-a>nes
+####
+
+########################
+93 ######
+depth: 1
+<child-a>est</child-a><child-b>officiis</child-b></node><node><child-a>nes
+####
+<node>
+########################
+94 ######
+depth: 2
+est</child-a><child-b>officiis</child-b></node><node><child-a>nes
+####
+<node><child-a>
+########################
+95 ######
+depth: 1
+<child-b>officiis</child-b></node><node><child-a>nes
+####
+<node><child-a>est</child-a>
+########################
+96 ######
+depth: 2
+officiis</child-b></node><node><child-a>nes
+####
+<node><child-a>est</child-a><child-b>
+########################
+97 ######
+depth: 1
+</node><node><child-a>nes
+####
+<node><child-a>est</child-a><child-b>officiis</child-b>
+########################
+%%%%%%%%%%%%%%%%% CALLBACK %%%%%%%%%%%%%%%%
+<node><child-a>est</child-a><child-b>officiis</child-b></node>
+%%%%%
+98 ######
+depth: 0
+<node><child-a>nes
+####
+
+########################
+99 ######
+depth: 1
+<child-a>nes
+####
+<node>
+########################
+100 ######
+depth: 2
+nes
+####
+<node><child-a>
+########################
+--chunk--
+ciunt</child-a><chil
+---------
+101 ######
+depth: 0
+<node><child-a>nesciunt</child-a><chil
+####
+
+########################
+102 ######
+depth: 1
+<child-a>nesciunt</child-a><chil
+####
+<node>
+########################
+103 ######
+depth: 2
+nesciunt</child-a><chil
+####
+<node><child-a>
+########################
+104 ######
+depth: 1
+<chil
+####
+<node><child-a>nesciunt</child-a>
+########################
+--chunk--
+d-b>voluptatem</chil
+---------
+105 ######
+depth: 0
+<node><child-a>nesciunt</child-a><child-b>voluptatem</chil
+####
+
+########################
+106 ######
+depth: 1
+<child-a>nesciunt</child-a><child-b>voluptatem</chil
+####
+<node>
+########################
+107 ######
+depth: 2
+nesciunt</child-a><child-b>voluptatem</chil
+####
+<node><child-a>
+########################
+108 ######
+depth: 1
+<child-b>voluptatem</chil
+####
+<node><child-a>nesciunt</child-a>
+########################
+109 ######
+depth: 2
+voluptatem</chil
+####
+<node><child-a>nesciunt</child-a><child-b>
+########################
+--chunk--
+d-b></node><node><ch
+---------
+110 ######
+depth: 0
+<node><child-a>nesciunt</child-a><child-b>voluptatem</child-b></node><node><ch
+####
+
+########################
+111 ######
+depth: 1
+<child-a>nesciunt</child-a><child-b>voluptatem</child-b></node><node><ch
+####
+<node>
+########################
+112 ######
+depth: 2
+nesciunt</child-a><child-b>voluptatem</child-b></node><node><ch
+####
+<node><child-a>
+########################
+113 ######
+depth: 1
+<child-b>voluptatem</child-b></node><node><ch
+####
+<node><child-a>nesciunt</child-a>
+########################
+114 ######
+depth: 2
+voluptatem</child-b></node><node><ch
+####
+<node><child-a>nesciunt</child-a><child-b>
+########################
+115 ######
+depth: 1
+</node><node><ch
+####
+<node><child-a>nesciunt</child-a><child-b>voluptatem</child-b>
+########################
+%%%%%%%%%%%%%%%%% CALLBACK %%%%%%%%%%%%%%%%
+<node><child-a>nesciunt</child-a><child-b>voluptatem</child-b></node>
+%%%%%
+116 ######
+depth: 0
+<node><ch
+####
+
+########################
+117 ######
+depth: 1
+<ch
+####
+<node>
+########################
+--chunk--
+ild-a>consequatur</c
+---------
+118 ######
+depth: 0
+<node><child-a>consequatur</c
+####
+
+########################
+119 ######
+depth: 1
+<child-a>consequatur</c
+####
+<node>
+########################
+120 ######
+depth: 2
+consequatur</c
+####
+<node><child-a>
+########################
+--chunk--
+hild-a><child-b>blan
+---------
+121 ######
+depth: 0
+<node><child-a>consequatur</child-a><child-b>blan
+####
+
+########################
+122 ######
+depth: 1
+<child-a>consequatur</child-a><child-b>blan
+####
+<node>
+########################
+123 ######
+depth: 2
+consequatur</child-a><child-b>blan
+####
+<node><child-a>
+########################
+124 ######
+depth: 1
+<child-b>blan
+####
+<node><child-a>consequatur</child-a>
+########################
+125 ######
+depth: 2
+blan
+####
+<node><child-a>consequatur</child-a><child-b>
+########################
+--chunk--
+ditiis</child-b></no
+---------
+126 ######
+depth: 0
+<node><child-a>consequatur</child-a><child-b>blanditiis</child-b></no
+####
+
+########################
+127 ######
+depth: 1
+<child-a>consequatur</child-a><child-b>blanditiis</child-b></no
+####
+<node>
+########################
+128 ######
+depth: 2
+consequatur</child-a><child-b>blanditiis</child-b></no
+####
+<node><child-a>
+########################
+129 ######
+depth: 1
+<child-b>blanditiis</child-b></no
+####
+<node><child-a>consequatur</child-a>
+########################
+130 ######
+depth: 2
+blanditiis</child-b></no
+####
+<node><child-a>consequatur</child-a><child-b>
+########################
+131 ######
+depth: 1
+</no
+####
+<node><child-a>consequatur</child-a><child-b>blanditiis</child-b>
+########################
+--chunk--
+de><node><child-a>ex
+---------
+132 ######
+depth: 0
+<node><child-a>consequatur</child-a><child-b>blanditiis</child-b></node><node><child-a>ex
+####
+
+########################
+133 ######
+depth: 1
+<child-a>consequatur</child-a><child-b>blanditiis</child-b></node><node><child-a>ex
+####
+<node>
+########################
+134 ######
+depth: 2
+consequatur</child-a><child-b>blanditiis</child-b></node><node><child-a>ex
+####
+<node><child-a>
+########################
+135 ######
+depth: 1
+<child-b>blanditiis</child-b></node><node><child-a>ex
+####
+<node><child-a>consequatur</child-a>
+########################
+136 ######
+depth: 2
+blanditiis</child-b></node><node><child-a>ex
+####
+<node><child-a>consequatur</child-a><child-b>
+########################
+137 ######
+depth: 1
+</node><node><child-a>ex
+####
+<node><child-a>consequatur</child-a><child-b>blanditiis</child-b>
+########################
+%%%%%%%%%%%%%%%%% CALLBACK %%%%%%%%%%%%%%%%
+<node><child-a>consequatur</child-a><child-b>blanditiis</child-b></node>
+%%%%%
+138 ######
+depth: 0
+<node><child-a>ex
+####
+
+########################
+139 ######
+depth: 1
+<child-a>ex
+####
+<node>
+########################
+140 ######
+depth: 2
+ex
+####
+<node><child-a>
+########################
+--chunk--
+plicabo</child-a><ch
+---------
+141 ######
+depth: 0
+<node><child-a>explicabo</child-a><ch
+####
+
+########################
+142 ######
+depth: 1
+<child-a>explicabo</child-a><ch
+####
+<node>
+########################
+143 ######
+depth: 2
+explicabo</child-a><ch
+####
+<node><child-a>
+########################
+144 ######
+depth: 1
+<ch
+####
+<node><child-a>explicabo</child-a>
+########################
+--chunk--
+ild-b>ut</child-b></
+---------
+145 ######
+depth: 0
+<node><child-a>explicabo</child-a><child-b>ut</child-b></
+####
+
+########################
+146 ######
+depth: 1
+<child-a>explicabo</child-a><child-b>ut</child-b></
+####
+<node>
+########################
+147 ######
+depth: 2
+explicabo</child-a><child-b>ut</child-b></
+####
+<node><child-a>
+########################
+148 ######
+depth: 1
+<child-b>ut</child-b></
+####
+<node><child-a>explicabo</child-a>
+########################
+149 ######
+depth: 2
+ut</child-b></
+####
+<node><child-a>explicabo</child-a><child-b>
+########################
+150 ######
+depth: 1
+</
+####
+<node><child-a>explicabo</child-a><child-b>ut</child-b>
+########################
+--chunk--
+node><node><child-a>
+---------
+151 ######
+depth: 0
+<node><child-a>explicabo</child-a><child-b>ut</child-b></node><node><child-a>
+####
+
+########################
+152 ######
+depth: 1
+<child-a>explicabo</child-a><child-b>ut</child-b></node><node><child-a>
+####
+<node>
+########################
+153 ######
+depth: 2
+explicabo</child-a><child-b>ut</child-b></node><node><child-a>
+####
+<node><child-a>
+########################
+154 ######
+depth: 1
+<child-b>ut</child-b></node><node><child-a>
+####
+<node><child-a>explicabo</child-a>
+########################
+155 ######
+depth: 2
+ut</child-b></node><node><child-a>
+####
+<node><child-a>explicabo</child-a><child-b>
+########################
+156 ######
+depth: 1
+</node><node><child-a>
+####
+<node><child-a>explicabo</child-a><child-b>ut</child-b>
+########################
+%%%%%%%%%%%%%%%%% CALLBACK %%%%%%%%%%%%%%%%
+<node><child-a>explicabo</child-a><child-b>ut</child-b></node>
+%%%%%
+157 ######
+depth: 0
+<node><child-a>
+####
+
+########################
+158 ######
+depth: 1
+<child-a>
+####
+<node>
+########################
+159 ######
+depth: 2
+
+####
+<node><child-a>
+########################
+--chunk--
+debitis</child-a><ch
+---------
+160 ######
+depth: 0
+<node><child-a>debitis</child-a><ch
+####
+
+########################
+161 ######
+depth: 1
+<child-a>debitis</child-a><ch
+####
+<node>
+########################
+162 ######
+depth: 2
+debitis</child-a><ch
+####
+<node><child-a>
+########################
+163 ######
+depth: 1
+<ch
+####
+<node><child-a>debitis</child-a>
+########################
+--chunk--
+ild-b>facilis</child
+---------
+164 ######
+depth: 0
+<node><child-a>debitis</child-a><child-b>facilis</child
+####
+
+########################
+165 ######
+depth: 1
+<child-a>debitis</child-a><child-b>facilis</child
+####
+<node>
+########################
+166 ######
+depth: 2
+debitis</child-a><child-b>facilis</child
+####
+<node><child-a>
+########################
+167 ######
+depth: 1
+<child-b>facilis</child
+####
+<node><child-a>debitis</child-a>
+########################
+168 ######
+depth: 2
+facilis</child
+####
+<node><child-a>debitis</child-a><child-b>
+########################
+--chunk--
+-b></node><node><chi
+---------
+169 ######
+depth: 0
+<node><child-a>debitis</child-a><child-b>facilis</child-b></node><node><chi
+####
+
+########################
+170 ######
+depth: 1
+<child-a>debitis</child-a><child-b>facilis</child-b></node><node><chi
+####
+<node>
+########################
+171 ######
+depth: 2
+debitis</child-a><child-b>facilis</child-b></node><node><chi
+####
+<node><child-a>
+########################
+172 ######
+depth: 1
+<child-b>facilis</child-b></node><node><chi
+####
+<node><child-a>debitis</child-a>
+########################
+173 ######
+depth: 2
+facilis</child-b></node><node><chi
+####
+<node><child-a>debitis</child-a><child-b>
+########################
+174 ######
+depth: 1
+</node><node><chi
+####
+<node><child-a>debitis</child-a><child-b>facilis</child-b>
+########################
+%%%%%%%%%%%%%%%%% CALLBACK %%%%%%%%%%%%%%%%
+<node><child-a>debitis</child-a><child-b>facilis</child-b></node>
+%%%%%
+175 ######
+depth: 0
+<node><chi
+####
+
+########################
+176 ######
+depth: 1
+<chi
+####
+<node>
+########################
+--chunk--
+ld-a>corporis</child
+---------
+177 ######
+depth: 0
+<node><child-a>corporis</child
+####
+
+########################
+178 ######
+depth: 1
+<child-a>corporis</child
+####
+<node>
+########################
+179 ######
+depth: 2
+corporis</child
+####
+<node><child-a>
+########################
+--chunk--
+-a><child-b>temporib
+---------
+180 ######
+depth: 0
+<node><child-a>corporis</child-a><child-b>temporib
+####
+
+########################
+181 ######
+depth: 1
+<child-a>corporis</child-a><child-b>temporib
+####
+<node>
+########################
+182 ######
+depth: 2
+corporis</child-a><child-b>temporib
+####
+<node><child-a>
+########################
+183 ######
+depth: 1
+<child-b>temporib
+####
+<node><child-a>corporis</child-a>
+########################
+184 ######
+depth: 2
+temporib
+####
+<node><child-a>corporis</child-a><child-b>
+########################
+--chunk--
+us</child-b></node><
+---------
+185 ######
+depth: 0
+<node><child-a>corporis</child-a><child-b>temporibus</child-b></node><
+####
+
+########################
+186 ######
+depth: 1
+<child-a>corporis</child-a><child-b>temporibus</child-b></node><
+####
+<node>
+########################
+187 ######
+depth: 2
+corporis</child-a><child-b>temporibus</child-b></node><
+####
+<node><child-a>
+########################
+188 ######
+depth: 1
+<child-b>temporibus</child-b></node><
+####
+<node><child-a>corporis</child-a>
+########################
+189 ######
+depth: 2
+temporibus</child-b></node><
+####
+<node><child-a>corporis</child-a><child-b>
+########################
+190 ######
+depth: 1
+</node><
+####
+<node><child-a>corporis</child-a><child-b>temporibus</child-b>
+########################
+%%%%%%%%%%%%%%%%% CALLBACK %%%%%%%%%%%%%%%%
+<node><child-a>corporis</child-a><child-b>temporibus</child-b></node>
+%%%%%
+191 ######
+depth: 0
+<
+####
+
+########################
+--chunk--
+node><child-a>except
+---------
+192 ######
+depth: 0
+<node><child-a>except
+####
+
+########################
+193 ######
+depth: 1
+<child-a>except
+####
+<node>
+########################
+194 ######
+depth: 2
+except
+####
+<node><child-a>
+########################
+--chunk--
+uri</child-a><child-
+---------
+195 ######
+depth: 0
+<node><child-a>excepturi</child-a><child-
+####
+
+########################
+196 ######
+depth: 1
+<child-a>excepturi</child-a><child-
+####
+<node>
+########################
+197 ######
+depth: 2
+excepturi</child-a><child-
+####
+<node><child-a>
+########################
+198 ######
+depth: 1
+<child-
+####
+<node><child-a>excepturi</child-a>
+########################
+--chunk--
+b>magni</child-b></n
+---------
+199 ######
+depth: 0
+<node><child-a>excepturi</child-a><child-b>magni</child-b></n
+####
+
+########################
+200 ######
+depth: 1
+<child-a>excepturi</child-a><child-b>magni</child-b></n
+####
+<node>
+########################
+201 ######
+depth: 2
+excepturi</child-a><child-b>magni</child-b></n
+####
+<node><child-a>
+########################
+202 ######
+depth: 1
+<child-b>magni</child-b></n
+####
+<node><child-a>excepturi</child-a>
+########################
+203 ######
+depth: 2
+magni</child-b></n
+####
+<node><child-a>excepturi</child-a><child-b>
+########################
+204 ######
+depth: 1
+</n
+####
+<node><child-a>excepturi</child-a><child-b>magni</child-b>
+########################
+--chunk--
+ode><node><child-a>a
+---------
+205 ######
+depth: 0
+<node><child-a>excepturi</child-a><child-b>magni</child-b></node><node><child-a>a
+####
+
+########################
+206 ######
+depth: 1
+<child-a>excepturi</child-a><child-b>magni</child-b></node><node><child-a>a
+####
+<node>
+########################
+207 ######
+depth: 2
+excepturi</child-a><child-b>magni</child-b></node><node><child-a>a
+####
+<node><child-a>
+########################
+208 ######
+depth: 1
+<child-b>magni</child-b></node><node><child-a>a
+####
+<node><child-a>excepturi</child-a>
+########################
+209 ######
+depth: 2
+magni</child-b></node><node><child-a>a
+####
+<node><child-a>excepturi</child-a><child-b>
+########################
+210 ######
+depth: 1
+</node><node><child-a>a
+####
+<node><child-a>excepturi</child-a><child-b>magni</child-b>
+########################
+%%%%%%%%%%%%%%%%% CALLBACK %%%%%%%%%%%%%%%%
+<node><child-a>excepturi</child-a><child-b>magni</child-b></node>
+%%%%%
+211 ######
+depth: 0
+<node><child-a>a
+####
+
+########################
+212 ######
+depth: 1
+<child-a>a
+####
+<node>
+########################
+213 ######
+depth: 2
+a
+####
+<node><child-a>
+########################
+--chunk--
+ssumenda</child-a><c
+---------
+214 ######
+depth: 0
+<node><child-a>assumenda</child-a><c
+####
+
+########################
+215 ######
+depth: 1
+<child-a>assumenda</child-a><c
+####
+<node>
+########################
+216 ######
+depth: 2
+assumenda</child-a><c
+####
+<node><child-a>
+########################
+217 ######
+depth: 1
+<c
+####
+<node><child-a>assumenda</child-a>
+########################
+--chunk--
+hild-b>voluptatem</c
+---------
+218 ######
+depth: 0
+<node><child-a>assumenda</child-a><child-b>voluptatem</c
+####
+
+########################
+219 ######
+depth: 1
+<child-a>assumenda</child-a><child-b>voluptatem</c
+####
+<node>
+########################
+220 ######
+depth: 2
+assumenda</child-a><child-b>voluptatem</c
+####
+<node><child-a>
+########################
+221 ######
+depth: 1
+<child-b>voluptatem</c
+####
+<node><child-a>assumenda</child-a>
+########################
+222 ######
+depth: 2
+voluptatem</c
+####
+<node><child-a>assumenda</child-a><child-b>
+########################
+--chunk--
+hild-b></node></root
+---------
+223 ######
+depth: 0
+<node><child-a>assumenda</child-a><child-b>voluptatem</child-b></node></root
+####
+
+########################
+224 ######
+depth: 1
+<child-a>assumenda</child-a><child-b>voluptatem</child-b></node></root
+####
+<node>
+########################
+225 ######
+depth: 2
+assumenda</child-a><child-b>voluptatem</child-b></node></root
+####
+<node><child-a>
+########################
+226 ######
+depth: 1
+<child-b>voluptatem</child-b></node></root
+####
+<node><child-a>assumenda</child-a>
+########################
+227 ######
+depth: 2
+voluptatem</child-b></node></root
+####
+<node><child-a>assumenda</child-a><child-b>
+########################
+228 ######
+depth: 1
+</node></root
+####
+<node><child-a>assumenda</child-a><child-b>voluptatem</child-b>
+########################
+%%%%%%%%%%%%%%%%% CALLBACK %%%%%%%%%%%%%%%%
+<node><child-a>assumenda</child-a><child-b>voluptatem</child-b></node>
+%%%%%
+229 ######
+depth: 0
+</root
+####
+
+########################
+--chunk--
+-node>
+---------
+230 ######
+depth: 0
+</root-node>
+####
+
+########################
+231 ######
+depth: -1
+
+####
+</root-node>
+########################
+
+
+Time: 39 ms, Memory: 4.75Mb
+
+[30;42mOK (1 test, 1 assertion)[0m

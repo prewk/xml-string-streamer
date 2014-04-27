@@ -10,10 +10,9 @@ class XmlStringStreamer
         $this->streamProvider = $streamProvider;
         $this->callback = $callback;
     }
-
+    
     private function extract($depth, $xmlChunk, $xmlNode = "")
     {
-        $this->counter++;
         $tagStart = strpos($xmlChunk, "<");
         if ($tagStart === false) {
             return array(
@@ -65,12 +64,12 @@ class XmlStringStreamer
 
                 $tagAsText = substr($xmlChunk, $tagStart, $tagEnd + 3 - $tagStart);
 
+                $xmlNode .= substr($xmlChunk, 0, $tagEnd + 3);
                 $xmlChunk = substr($xmlChunk, $tagEnd + 3);
                 $depth = $depth;
-                $xmlNode .= substr($xmlChunk, 0, $tagEnd + 3);
 
                 return $this->extract($depth, $xmlChunk, $xmlNode);
-            } else {
+            } else if (substr($tagAsText, 0, 4) == "<!--") {
                 // <!-- ... -->
                 $tagEnd = strpos($xmlChunk, "-->", $tagStart);
                 if ($tagEnd === false) {
@@ -83,15 +82,33 @@ class XmlStringStreamer
 
                 $tagAsText = substr($xmlChunk, $tagStart, $tagEnd + 3 - $tagStart);
 
+                $xmlNode .= substr($xmlChunk, 0, $tagEnd + 3);
                 $xmlChunk = substr($xmlChunk, $tagEnd + 3);
                 $depth = $depth;
-                $xmlNode .= substr($xmlChunk, 0, $tagEnd + 3);
+
+                return $this->extract($depth, $xmlChunk, $xmlNode);
+            } else {
+                // <!DOCTYPE html>
+                $tagEnd = strpos($xmlChunk, ">", $tagStart);
+                if ($tagEnd === false) {
+                    return array(
+                        "depth" => $depth,
+                        "xmlChunk" => $xmlChunk,
+                        "xmlNode" => $xmlNode,
+                    );
+                }
+
+                $tagAsText = substr($xmlChunk, $tagStart, $tagEnd + 1 - $tagStart);
+
+                $xmlNode .= substr($xmlChunk, 0, $tagEnd + 1);
+                $xmlChunk = substr($xmlChunk, $tagEnd + 1);
+                $depth = $depth;
 
                 return $this->extract($depth, $xmlChunk, $xmlNode);
             }
         } else if ($tagAsText[1] == "/") {
-            $xmlNode .= substr($xmlChunk, 0, $tagEnd + 2);
-            $xmlChunk = substr($xmlChunk, $tagEnd + 2);
+            $xmlNode .= substr($xmlChunk, 0, $tagEnd + 1);
+            $xmlChunk = substr($xmlChunk, $tagEnd + 1);
             $depth--;
 
             if ($depth === 0) {
@@ -131,11 +148,8 @@ class XmlStringStreamer
 
             $extracted = $this->extract(0, $chunk);
 
-            $lastExtractedChunk = $extracted["xmlNode"];
-            if ($extracted["depth"] > 0) {
-                // We have some overflow stuff we need to add to it
-                $lastExtractedChunk .= $extracted["xmlChunk"];
-            }
+            // Combine them to get the overflow stuff as well    
+            $lastExtractedChunk = $extracted["xmlNode"] . $extracted["xmlChunk"];
 
             $counter++;
         }

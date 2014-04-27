@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<node>
+		<child><![CDATA[Foo]]></child>
+	</node>
+	<node>
+		<child><![CDATA[Bar]]></child>
+	</node>
+	<node>
+		<child><![CDATA[Baz]]></child>
+	</node>
+	<node>
+		<child><![CDATA[Foo]]></child>
+	</node>
+	<node>
+		<child><![CDATA[Bar]]></child>
+	</node>
+</root>
