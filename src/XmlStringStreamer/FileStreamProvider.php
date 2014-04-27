@@ -5,8 +5,9 @@ class FileStreamProvider implements iStreamProvider
     private $handle;
     private $readBytes = 0;
     private $chunkSize;
+    private $chunkCallback;
 
-    public function __construct($mixed, $chunkSize)
+    public function __construct($mixed, $chunkSize = 16384, $chunkCallback = null)
     {
         if (is_string($mixed)) {
             // Treat as filename
@@ -27,12 +28,19 @@ class FileStreamProvider implements iStreamProvider
         }
 
         $this->chunkSize = $chunkSize;
+        $this->chunkCallback = $chunkCallback;
     }
 
     public function getChunk()
     {
         if (!feof($this->handle)) {
             $buffer = fread($this->handle, $this->chunkSize);
+            $this->readBytes += strlen($buffer);
+
+            if (is_callable($this->chunkCallback)) {
+                call_user_func_array($this->chunkCallback, array($buffer, $this->readBytes));
+            }
+            
             return $buffer;
         } else {
             return "";
