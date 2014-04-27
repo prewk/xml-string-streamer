@@ -95,7 +95,6 @@ class XmlStringStreamer
             $depth--;
 
             if ($depth === 0) {
-                $this->callbackHits++;
                 call_user_func_array($this->callback, array(trim($xmlNode)));
 
                 $xmlNode = "";
