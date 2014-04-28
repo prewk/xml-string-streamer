@@ -1,6 +1,6 @@
-<?php namespace Prewk\XmlStringStreamer;
+<?php namespace Prewk\XmlStringStreamer\StreamProvider;
 
-class StringStreamProvider implements iStreamProvider
+class String implements iStreamProvider
 {
     private $chunkSent = false;
 

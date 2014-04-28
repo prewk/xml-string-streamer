@@ -1,11 +1,11 @@
-<?php namespace Prewk;
+<?php namespace Prewk\XmlStringStreamer;
 
-class XmlStringStreamer
+class Parser
 {
     private $callback;
     private $streamProvider;
 
-    public function __construct(XmlStringStreamer\iStreamProvider $streamProvider, $callback, $options = array())
+    public function __construct(StreamProvider\iStreamProvider $streamProvider, $callback, $options = array())
     {
         $this->streamProvider = $streamProvider;
         $this->callback = $callback;

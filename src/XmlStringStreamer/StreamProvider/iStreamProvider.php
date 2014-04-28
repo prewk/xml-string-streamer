@@ -1,4 +1,4 @@
-<?php namespace Prewk\XmlStringStreamer;
+<?php namespace Prewk\XmlStringStreamer\StreamProvider;
 
 
 interface iStreamProvider

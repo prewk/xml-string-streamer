@@ -1,7 +1,7 @@
 <?php
 
-use Prewk\XmlFaker;
 use Prewk\XmlStringStreamer;
+use Prewk\XmlStringStreamer\StreamProvider;
 
 class XmlStringStreamerTest extends PHPUnit_Framework_TestCase
 {
@@ -11,20 +11,20 @@ class XmlStringStreamerTest extends PHPUnit_Framework_TestCase
 		$chunkSize = 100;
 
 		$simpleBlueprint = simplexml_load_file(__dir__ . "/simpleBlueprint.xml");
-		$xmlFaker = new XmlFaker($simpleBlueprint);
+		$xmlFaker = new \Prewk\XmlFaker($simpleBlueprint);
 
 		$tmpFile = tempnam("/tmp", "xml-string-streamer-test");
 
-		$xmlFaker->asFile($tmpFile, XmlFaker::BYTE_COUNT_RESTRICTION_MODE, $maxFileSize);
+		$xmlFaker->asFile($tmpFile, \Prewk\XmlFaker::BYTE_COUNT_RESTRICTION_MODE, $maxFileSize);
 
 		$counter = 0;
 		$totalReadBytes = 0;
-		$streamProvider = new XmlStringStreamer\FileStreamProvider($tmpFile, $chunkSize, function($buffer, $readBytes) use (&$counter, &$totalReadBytes) {
+		$streamProvider = new StreamProvider\File($tmpFile, $chunkSize, function($buffer, $readBytes) use (&$counter, &$totalReadBytes) {
 			$counter++;
 			$totalReadBytes = $readBytes;
 		});
 
-		$streamer = new XmlStringStreamer($streamProvider, function($xmlNode) {
+		$streamer = new XmlStringStreamer\Parser($streamProvider, function($xmlNode) {
 
 		});
 		$streamer->parse();
@@ -43,17 +43,17 @@ class XmlStringStreamerTest extends PHPUnit_Framework_TestCase
 		$nodeNo = 100000;
 
 		$simpleBlueprint = simplexml_load_file(__dir__ . "/simpleBlueprint.xml");
-		$xmlFaker = new XmlFaker($simpleBlueprint);
+		$xmlFaker = new \Prewk\XmlFaker($simpleBlueprint);
 
 		$tmpFile = tempnam("/tmp", "xml-string-streamer-test");
 
-		$xmlFaker->asFile($tmpFile, XmlFaker::NODE_COUNT_RESTRICTION_MODE, $nodeNo);
+		$xmlFaker->asFile($tmpFile, \Prewk\XmlFaker::NODE_COUNT_RESTRICTION_MODE, $nodeNo);
 
 		$memoryUsageBefore = memory_get_usage(true);
-		$streamProvider = new XmlStringStreamer\FileStreamProvider($tmpFile, 100);
+		$streamProvider = new StreamProvider\File($tmpFile, 100);
 
 		$counter = 0;
-		$streamer = new XmlStringStreamer($streamProvider, function($xmlNode) use (&$counter) {
+		$streamer = new XmlStringStreamer\Parser($streamProvider, function($xmlNode) use (&$counter) {
 			$counter++;
 		});
 		$streamer->parse();
@@ -68,13 +68,13 @@ class XmlStringStreamerTest extends PHPUnit_Framework_TestCase
 
 	public function testXmlWithComments()
 	{
-		$streamProvider = new XmlStringStreamer\FileStreamProvider(__dir__ . "/xmlWithComments.xml", 70);
+		$streamProvider = new StreamProvider\File(__dir__ . "/xmlWithComments.xml", 70);
 		
 		$expectedStrings = array("Foo", "Bar", "Baz", "Foo", "Bar");
 
 		$foundStrings = array();
 
-		$streamer = new XmlStringStreamer($streamProvider, function($xmlNode) use (&$foundStrings) {
+		$streamer = new XmlStringStreamer\Parser($streamProvider, function($xmlNode) use (&$foundStrings) {
 			$xml = simplexml_load_string($xmlNode);
 			$foundStrings[] = trim((string)$xml->child);
 		});
@@ -85,13 +85,13 @@ class XmlStringStreamerTest extends PHPUnit_Framework_TestCase
 
 	public function testXmlWithCDATA()
 	{
-		$streamProvider = new XmlStringStreamer\FileStreamProvider(__dir__ . "/xmlWithCDATA.xml", 70);
+		$streamProvider = new StreamProvider\File(__dir__ . "/xmlWithCDATA.xml", 70);
 		
 		$expectedStrings = array("Foo", "Bar", "Baz", "Foo", "Bar");
 
 		$foundStrings = array();
 
-		$streamer = new XmlStringStreamer($streamProvider, function($xmlNode) use (&$foundStrings) {
+		$streamer = new XmlStringStreamer\Parser($streamProvider, function($xmlNode) use (&$foundStrings) {
 			$xml = simplexml_load_string($xmlNode);
 			$foundStrings[] = trim((string)$xml->child);
 		});
@@ -102,13 +102,13 @@ class XmlStringStreamerTest extends PHPUnit_Framework_TestCase
 
 	public function testXmlWithDoctype()
 	{
-		$streamProvider = new XmlStringStreamer\FileStreamProvider(__dir__ . "/xmlWithDoctype.xml", 70);
+		$streamProvider = new StreamProvider\File(__dir__ . "/xmlWithDoctype.xml", 70);
 		
 		$expectedStrings = array("Foo", "Bar", "Baz", "Foo", "Bar");
 
 		$foundStrings = array();
 
-		$streamer = new XmlStringStreamer($streamProvider, function($xmlNode) use (&$foundStrings) {
+		$streamer = new XmlStringStreamer\Parser($streamProvider, function($xmlNode) use (&$foundStrings) {
 			$xml = simplexml_load_string($xmlNode);
 			$foundStrings[] = trim((string)$xml->child);
 		});

@@ -18,29 +18,35 @@ Usage
 -----
 
 ### 1. Create a stream provider
-Currently, there are two:
 
-#### FileStreamProvider
-This is probably what you want. Stream files in chunks with low memory consumption.
+#### StreamProvider\File
+
+Use this provider to parse large XML files on disk. Pick a chunk size, for example: 16384 bytes.
 
     $CHUNK_SIZE = 16384;
-    $fsp = new Prewk\XmlStringStreamer\FileStreamProvider("large-xml-file.xml", $CHUNK_SIZE);
-    
-#### StringStreamProvider
-This is mainly for testing. "Streams" (just returns) a text string as a large chunk. Therefore: eats all your memory.
+    $fsp = new \Prewk\XmlStringStreamer\StreamProvider\File("large-xml-file.xml", $CHUNK_SIZE);
 
-    $xmlStr = "<xml>..............</xml>"; // Some XML string
-    $fsp = new Prewk\XmlStringStreamer\StringStreamProvider($xmlStr);
+#### StreamProvider\Stdout
 
-### 2. Construct a streamer and provide a closure
+Not yet available
 
-    $streamer = new Prewk\XmlStringStreamer($fsp, function($xmlString) {
+#### StreamProvider\Guzzle
+
+Not yet available
+
+#### StreamProvider\String
+
+Used only for testing purposes. Streams nothing, just returns a whole string. No chunk closure support.
+
+### 2. Construct the parser and provide the stream provider and a closure
+
+    $parser = new \Prewk\XmlStringStreamer\Parser($fsp, function($xmlString) {
         // This closure will be called every time a full node has been parsed
     });
 
 ### 3. Run
 
-    $streamer->parse();
+    $parser->parse();
 
 Examples
 --------
@@ -59,13 +65,14 @@ Let's say you have a 2 GB XML file __gigantic.xml__ containing customer items th
 
 Parse through it in chunks like this:
 
-    use Prewk\XmlStringStreamer;
+    use \Prewk\XmlStringStreamer;
+    use \Prewk\XmlStringStreamer\StreamProvider;
     
     // Prepare our stream to be read with a 16kb buffer
-    $streamProvider = new FileStreamProvider("gigantic.xml", 16384);
+    $streamProvider = new StreamProvider\File("gigantic.xml", 16384);
 
-    // Construct the streamer and provide a closure to do your stuff
-    $streamer = new XmlStringStreamer($streamProvider, function($xmlString) {
+    // Construct the parser and provide a closure to do your stuff
+    $parser = new XmlStringStreamer\Parser($streamProvider, function($xmlString) {
         // $xmlString will contain: <customer><firstName>Jane</firstName><lastName>Doe</lastName></customer>
     
         // Load the node with SimpleXML if you want
@@ -74,16 +81,17 @@ Parse through it in chunks like this:
     });
 
     // Everything is prepared - time to start parsing
-    $streamer->parse();
+    $parser->parse();
 
 ### Handling progress and buffer read callback
 
 You can provide a closure to the stream provider that will fire every time a chunk is read.
 
-    use Prewk\XmlStringStreamer;
+    use \Prewk\XmlStringStreamer;
+    use \Prewk\XmlStringStreamer\StreamProvider;
     
     // Prepare our stream to be read with a 16kb buffer
-    $streamProvider = new FileStreamProvider("gigantic.xml", 16384, function($buffer, $readBytes) {
+    $streamProvider = new StreamProvider\File("gigantic.xml", 16384, function($buffer, $readBytes) {
         // $buffer contains the last read buffer
         // $readBytes equals the total read bytes so far
 
@@ -101,7 +109,7 @@ Check out [Example #3 Closures and scoping](http://www.php.net/manual/en/functio
     $someArray = array();
     $someDbInstance = new SomeDb;
 
-    $streamer = new XmlStringStreamer($streamProvider, function($xmlString) use (&$someCounter, &$someArray, $someDbInstance) {
+    $parser = new XmlStringStreamer\Parser($streamProvider, function($xmlString) use (&$someCounter, &$someArray, $someDbInstance) {
         $xml = simplexml_load_string($xmlString);
 
         $counter++;
@@ -109,7 +117,7 @@ Check out [Example #3 Closures and scoping](http://www.php.net/manual/en/functio
         $someDbInstance->query("....");
     });
 
-    $streamer->parse();
+    $parser->parse();
 
     echo $counter;
     print_r($someArray);
