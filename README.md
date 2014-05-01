@@ -25,10 +25,10 @@ Usage
 
 #### StreamProvider\File
 
-Use this provider to parse large XML files on disk. Pick a chunk size, for example: 16384 bytes.
+Use this provider to parse large XML files on disk. Pick a chunk size, for example: 1024 bytes.
 
 ````php
-$CHUNK_SIZE = 16384;
+$CHUNK_SIZE = 1024;
 $fsp = new \Prewk\XmlStringStreamer\StreamProvider\File("large-xml-file.xml", $CHUNK_SIZE);
 ````
 
@@ -81,8 +81,8 @@ Parse through it in chunks like this:
 use \Prewk\XmlStringStreamer;
 use \Prewk\XmlStringStreamer\StreamProvider;
 
-// Prepare our stream to be read with a 16kb buffer
-$streamProvider = new StreamProvider\File("gigantic.xml", 16384);
+// Prepare our stream to be read with a 1kb buffer
+$streamProvider = new StreamProvider\File("gigantic.xml", 1024);
 
 // Construct the parser and provide a closure to do your stuff
 $parser = new XmlStringStreamer\Parser($streamProvider, function($xmlString) {
@@ -105,8 +105,8 @@ You can provide a closure to the stream provider that will fire every time a chu
 use \Prewk\XmlStringStreamer;
 use \Prewk\XmlStringStreamer\StreamProvider;
 
-// Prepare our stream to be read with a 16kb buffer
-$streamProvider = new StreamProvider\File("gigantic.xml", 16384, function($buffer, $readBytes) {
+// Prepare our stream to be read with a 1kb buffer
+$streamProvider = new StreamProvider\File("gigantic.xml", 1024, function($buffer, $readBytes) {
     // $buffer contains the last read buffer
     // $readBytes equals the total read bytes so far
 
