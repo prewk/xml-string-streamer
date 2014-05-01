@@ -1,11 +1,11 @@
-xml-string-streamer
+xml-string-streamer [![Build Status](https://travis-ci.org/prewk/xml-string-streamer.svg?branch=master)](https://travis-ci.org/prewk/xml-string-streamer)
 ===================
 
 What?
 -----
 Stream very large XML files in PHP with low memory consumption. Is a successor to [XmlStreamer](https://github.com/prewk/XmlStreamer).
 
-Installation
+Installation 
 ------------
 
 composer.json:
