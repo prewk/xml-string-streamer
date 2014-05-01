@@ -117,6 +117,8 @@ $fsp = new \Prewk\XmlStringStreamer\StreamProvider\File("large-xml-file.xml", $C
 
 #### StreamProvider\Stdin
 
+Use this provider if you want to create a CLI application that streams large XML files through STDIN.
+
 ````php
 $CHUNK_SIZE = 1024;
 $fsp = new \Prewk\XmlStringStreamer\StreamProvider\Stdin($CHUNK_SIZE);
@@ -124,7 +126,9 @@ $fsp = new \Prewk\XmlStringStreamer\StreamProvider\Stdin($CHUNK_SIZE);
 
 #### StreamProvider\Guzzle
 
-Not yet available
+Use this provider if you want to stream large XML files over HTTP.
+
+This provider is moved to a separate repo because it requires PHP 5.4+ (because of Guzzle 4): [https://github.com/prewk/xml-string-streamer-guzzle](https://github.com/prewk/xml-string-streamer-guzzle)
 
 #### StreamProvider\String
 
