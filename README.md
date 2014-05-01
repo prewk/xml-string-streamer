@@ -38,8 +38,8 @@ Let's say you have a 2 GB XML file __gigantic.xml__ containing customer items th
 Parse through it in chunks like this:
 
 ````php
-use \Prewk\XmlStringStreamer;
-use \Prewk\XmlStringStreamer\StreamProvider;
+use Prewk\XmlStringStreamer;
+use Prewk\XmlStringStreamer\StreamProvider;
 
 // Prepare our stream to be read with a 1kb buffer
 $streamProvider = new StreamProvider\File("gigantic.xml", 1024);
@@ -64,8 +64,8 @@ You can provide a closure to the stream provider that will fire every time a chu
 ````php
 require("vendor/autoload.php"); // If you need the composer autoloader
 
-use \Prewk\XmlStringStreamer;
-use \Prewk\XmlStringStreamer\StreamProvider;
+use Prewk\XmlStringStreamer;
+use Prewk\XmlStringStreamer\StreamProvider;
 
 // Prepare our stream to be read with a 1kb buffer
 $streamProvider = new StreamProvider\File("gigantic.xml", 1024, function($buffer, $readBytes) {
@@ -83,8 +83,8 @@ Create a file `streamer.php`:
 ````php
 require("vendor/autoload.php"); // If you need the composer autoloader
 
-use \Prewk\XmlStringStreamer;
-use \Prewk\XmlStringStreamer\StreamProvider;
+use Prewk\XmlStringStreamer;
+use Prewk\XmlStringStreamer\StreamProvider;
 
 $streamProvider = new StreamProvider\Stdin(50);
 $parser = new XmlStringStreamer\Parser($streamProvider, function($xmlNode) {
@@ -112,7 +112,7 @@ Use this provider to parse large XML files on disk. Pick a chunk size, for examp
 
 ````php
 $CHUNK_SIZE = 1024;
-$fsp = new \Prewk\XmlStringStreamer\StreamProvider\File("large-xml-file.xml", $CHUNK_SIZE);
+$fsp = new Prewk\XmlStringStreamer\StreamProvider\File("large-xml-file.xml", $CHUNK_SIZE);
 ````
 
 #### StreamProvider\Stdin
@@ -121,7 +121,7 @@ Use this provider if you want to create a CLI application that streams large XML
 
 ````php
 $CHUNK_SIZE = 1024;
-$fsp = new \Prewk\XmlStringStreamer\StreamProvider\Stdin($CHUNK_SIZE);
+$fsp = new Prewk\XmlStringStreamer\StreamProvider\Stdin($CHUNK_SIZE);
 ````
 
 #### StreamProvider\Guzzle
@@ -137,7 +137,7 @@ Used only for testing purposes. Streams nothing, just returns a whole string. No
 ### 2. Construct the parser and provide the stream provider and a closure
 
 ````php
-$parser = new \Prewk\XmlStringStreamer\Parser($fsp, function($xmlString) {
+$parser = new Prewk\XmlStringStreamer\Parser($fsp, function($xmlString) {
     // This closure will be called every time a full node has been parsed
 });
 ````
