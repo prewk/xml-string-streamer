@@ -11,7 +11,7 @@ Installation
 composer.json:
     
     "require": {
-        "prewk/xml-string-streamer": "dev-master"
+        "prewk/xml-string-streamer": "*@dev"
     }
 
 Usage
