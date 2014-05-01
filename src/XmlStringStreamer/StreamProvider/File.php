@@ -7,7 +7,7 @@ class File implements iStreamProvider
     private $chunkSize;
     private $chunkCallback;
 
-    public function __construct($mixed, $chunkSize = 16384, $chunkCallback = null)
+    public function __construct($mixed, $chunkSize = 1024, $chunkCallback = null)
     {
         if (is_string($mixed)) {
             // Treat as filename
