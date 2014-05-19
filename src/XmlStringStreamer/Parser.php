@@ -4,11 +4,13 @@ class Parser
 {
     private $callback;
     private $streamProvider;
+    private $options;
 
     public function __construct(StreamProvider\iStreamProvider $streamProvider, $callback, $options = array())
     {
         $this->streamProvider = $streamProvider;
         $this->callback = $callback;
+        $this->options = $options;
     }
     
     private function extract($depth, $xmlChunk, $xmlNode = "")
@@ -121,7 +123,11 @@ class Parser
         } else {
             $xmlNode .= substr($xmlChunk, 0, $tagEnd + 1);
             $xmlChunk = substr($xmlChunk, $tagEnd + 1);
-            $depth++;
+
+            // Self-closing?
+            if ($tagAsText[strlen($tagAsText) - 2] != "/") {
+                $depth++;
+            }
 
             return $this->extract($depth, $xmlChunk, $xmlNode);
         }
@@ -131,12 +137,19 @@ class Parser
     {
         $firstChunk = $this->streamProvider->getChunk();
 
-        if (preg_match("/<([^>!?]+)>/", $firstChunk, $matches) === 0) {
+        // Find root
+        if (isset($this->options["customRootElement"])) {
+            $matchCount = preg_match("/<(" . preg_quote($this->options["customRootElement"]) . "[^>!?]*)>/", $firstChunk, $matches);
+        } else {
+            $matchCount = preg_match("/<([^>!?]+)>/", $firstChunk, $matches);
+        }
+
+        if ($matchCount === 0) {
             throw new \Exception("Couldn't find root node in first chunk");
         }
-        
+
         $rootElem = $matches[0];
-        
+
         $chunk = substr($firstChunk, strpos($firstChunk, $rootElem) + strlen($rootElem));
 
         $lastExtractedChunk = $chunk;

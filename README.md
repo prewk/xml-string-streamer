@@ -148,6 +148,45 @@ $parser = new Prewk\XmlStringStreamer\Parser($fsp, function($xmlString) {
 $parser->parse();
 ````
 
+Options
+-------
+
+The third argument to the `Parser` constructor is the options array.
+
+### customRootElement
+
+Allows you to have a custom root element, useful if your XML is nested like this:
+
+````xml
+<?xml?>
+<foo>
+    <bar something="123">
+        <baz>
+            This is what you're interested in
+        </baz>
+        <baz>
+            This is what you're interested in
+        </baz>
+        <baz>
+            This is what you're interested in
+        </baz>
+        <baz>
+            This is what you're interested in
+        </baz>
+    </bar>
+</foo>
+````
+
+For the above example, use like this:
+
+````php
+$streamer = new XmlStringStreamer\Parser($streamProvider, function($xmlNode) {
+    ....
+}, array(
+    "customRootElement" => "bar"
+));
+````
+
 FAQ
 ---
 
