@@ -1,6 +1,8 @@
 xml-string-streamer [![Build Status](https://travis-ci.org/prewk/xml-string-streamer.svg?branch=master)](https://travis-ci.org/prewk/xml-string-streamer)
 ===================
 
+__Warning: Don't use in production, has a bug at the moment that is being addressed which may cause your memory consumption to peak or your script to crash!__
+
 What?
 -----
 Stream very large XML files in PHP with low memory consumption. Is a successor to [XmlStreamer](https://github.com/prewk/XmlStreamer).
