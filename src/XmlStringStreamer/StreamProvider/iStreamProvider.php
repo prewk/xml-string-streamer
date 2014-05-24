@@ -4,5 +4,4 @@
 interface iStreamProvider
 {
     public function getChunk();
-    public function hasMore();
 }

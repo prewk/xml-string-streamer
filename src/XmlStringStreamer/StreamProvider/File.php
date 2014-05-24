@@ -33,7 +33,7 @@ class File implements iStreamProvider
 
     public function getChunk()
     {
-        if (!feof($this->handle)) {
+        if (is_resource($this->handle) && !feof($this->handle)) {
             $buffer = fread($this->handle, $this->chunkSize);
             $this->readBytes += strlen($buffer);
 
@@ -42,18 +42,11 @@ class File implements iStreamProvider
             }
             
             return $buffer;
-        } else {
-            return "";
-        }
-    }
-
-    public function hasMore()
-    {
-        if (feof($this->handle)) {
+        } else if (is_resource($this->handle)) {
             fclose($this->handle);
             return false;
         } else {
-            return true;
+            return false;
         }
     }
 }

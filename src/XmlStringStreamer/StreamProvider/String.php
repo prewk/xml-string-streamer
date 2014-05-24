@@ -12,14 +12,10 @@ class String implements iStreamProvider
     public function getChunk()
     {
         if ($this->chunkSent) {
-            return "";
+            return false;
         } else {
             $this->chunkSent = true;
             return $this->xmlString;
         }
-    }
-
-    public function hasMore() {
-        return false;
     }
 }
