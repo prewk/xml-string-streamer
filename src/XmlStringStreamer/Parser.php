@@ -5,26 +5,12 @@ class Parser
     protected $provider;
     protected $options;
 
+    protected $firstRun = true;
     protected $depth = 0;
     protected $chunk;
-    protected $shaved = "";
+    protected $shaved = null;
 
     protected $capture = false;
-
-    protected $tags = array(
-        array("<?", "?>", 0),
-        array("<!--", "-->", 0),
-        array("<![CDATA[", "]]>", 0),
-        array("<!", ">", 0),
-        array("</", ">", -1),
-        array("<", "/>", 0),
-        array("<", ">", 1),
-    );
-
-    protected $tagsWithAllowedGT = array(
-        array("<!--", "-->"),
-        array("<![CDATA[", "]]>"),
-    );
 
     /**
      * Constructor
@@ -35,6 +21,26 @@ class Parser
     {
         if (!isset($options["captureDepth"])) {
             $options["captureDepth"] = 1;
+        }
+        if (!isset($options["expectGT"])) {
+            $options["expectGT"] = false;
+        }
+        if (!isset($options["tags"])) {
+            $options["tags"] = array(
+                array("<?", "?>", 0),
+                array("<!--", "-->", 0),
+                array("<![CDATA[", "]]>", 0),
+                array("<!", ">", 0),
+                array("</", ">", -1),
+                array("<", "/>", 0),
+                array("<", ">", 1),
+            );
+        }
+        if (!isset($options["tagsWithAllowedGT"])) {
+            $options["tagsWithAllowedGT"] = array(
+                array("<!--", "-->"),
+                array("<![CDATA[", "]]>"),
+            );
         }
 
         $this->provider = $provider;
@@ -52,27 +58,31 @@ class Parser
         if (isset($matches[0], $matches[0][0], $matches[0][1])) {
             list($captured, $offset) = $matches[0];
             
-            // Some elements support > inside
-            foreach ($this->tagsWithAllowedGT as $tag) {
-                list($opening, $closing) = $tag;
+            if ($this->options["expectGT"]) {            
+                // Some elements support > inside
+                foreach ($this->options["tagsWithAllowedGT"] as $tag) {
+                    list($opening, $closing) = $tag;
 
-                if (substr($captured, 0, strlen($opening)) === $opening) {
-                    // We have a match, our preg_match may have ended too early
-                    // Most often, this isn't the case
-                    if (substr($captured, -1 * strlen($closing)) !== $closing) {
-                        // In this case, the preg_match ended too early, let's find the real end
-                        $position = strpos($this->chunk, $closing);
-                        if ($position === false) {
-                            // We need more XML!
-                            return false;
+                    if (substr($captured, 0, strlen($opening)) === $opening) {
+                        // We have a match, our preg_match may have ended too early
+                        // Most often, this isn't the case
+                        if (substr($captured, -1 * strlen($closing)) !== $closing) {
+                            // In this case, the preg_match ended too early, let's find the real end
+                            $position = strpos($this->chunk, $closing);
+                            if ($position === false) {
+                                // We need more XML!
+
+                                $this->timeShave += microtime(true) - $time;
+
+                                return false;
+                            }
+
+                            // We found the end, modify $captured
+                            $captured = substr($this->chunk, $offset, $position + strlen($closing) - $offset);
                         }
-
-                        // We found the end, modify $captured
-                        $captured = substr($this->chunk, $offset, $position + strlen($closing) - $offset);
                     }
                 }
             }
-
 
             // Data in between
             $data = substr($this->chunk, 0, $offset);
@@ -93,11 +103,14 @@ class Parser
      */
     protected function getEdges($element)
     {
-        foreach ($this->tags as $tag) {
+        // TODO: Performance tuning possible here by not looping
+
+        foreach ($this->options["tags"] as $tag) {
             list($opening, $closing, $depth) = $tag;
 
             if (substr($element, 0, strlen($opening)) === $opening
                 && substr($element, -1 * strlen($closing)) === $closing) {
+
                 return $tag;
             }
         }
@@ -109,6 +122,15 @@ class Parser
      */
     protected function prepareChunk()
     {
+        if (!$this->firstRun && is_null($this->shaved)) {
+            // We're starting again after a flush
+            $this->shaved = "";
+
+            return true;
+        } else if (is_null($this->shaved)) {
+            $this->shaved = "";
+        }
+
         $newChunk = $this->provider->getChunk();
 
         if ($newChunk !== false) {
@@ -133,6 +155,7 @@ class Parser
         // Iterate and append to $this->chunk
 
         while ($this->prepareChunk()) {
+            $this->firstRun = false;
             // Shave off elements
             while ($shaved = $this->shave()) {
                 list($element, $data) = $shaved;
@@ -154,7 +177,7 @@ class Parser
                     } else {
                         // Whole node is captured, flush it out
                         $flush = $this->shaved;
-                        $this->shaved = "";
+                        $this->shaved = null;
 
                         return $flush;
                     }
