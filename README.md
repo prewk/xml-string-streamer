@@ -79,11 +79,11 @@ $CHUNK_SIZE = 1024;
 $fsp = new Prewk\XmlStringStreamer\StreamProvider\Stdin($CHUNK_SIZE);
 ````
 
-## StreamProvider\Guzzler
+### StreamProvider\Guzzler
 
 Uses [Guzzler](https://github.com/guzzle/guzzle) to stream XML data from an URL.
 
-Requires PHP 5.4+, so in a different repo: [https://github.com/prewk/xml-string-streamer-guzzle](https://github.com/prewk/xml-string-streamer-guzzle)
+Requires PHP 5.4+ and is therefore in a different repo: [https://github.com/prewk/xml-string-streamer-guzzle](https://github.com/prewk/xml-string-streamer-guzzle)
 
 Advanced examples
 -----------------
