@@ -19,14 +19,10 @@ class Parser
      */
     public function __construct(StreamProvider\iStreamProvider $provider, $options = array())
     {
-        if (!isset($options["captureDepth"])) {
-            $options["captureDepth"] = 1;
-        }
-        if (!isset($options["expectGT"])) {
-            $options["expectGT"] = false;
-        }
-        if (!isset($options["tags"])) {
-            $options["tags"] = array(
+        $this->options = array_merge(array(
+            "captureDepth" => 1,
+            "expectGT" => false,
+            "tags" => array(
                 array("<?", "?>", 0),
                 array("<!--", "-->", 0),
                 array("<![CDATA[", "]]>", 0),
@@ -34,17 +30,14 @@ class Parser
                 array("</", ">", -1),
                 array("<", "/>", 0),
                 array("<", ">", 1),
-            );
-        }
-        if (!isset($options["tagsWithAllowedGT"])) {
-            $options["tagsWithAllowedGT"] = array(
+            ),
+            "tagsWithAllowedGT" => array(
                 array("<!--", "-->"),
                 array("<![CDATA[", "]]>"),
-            );
-        }
+            ),
+        ), $options);
 
         $this->provider = $provider;
-        $this->options = $options;
     }
 
     /**
