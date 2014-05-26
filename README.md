@@ -81,6 +81,20 @@ $fsp = new Prewk\XmlStringStreamer\StreamProvider\Stdin($CHUNK_SIZE);
 
 Advanced examples
 -----------------
+
+### Chunk closure
+
+The `StreamProvider\File` provider can be provided with a closure that will be called on every chunk read:
+
+````php
+$counter = 0;
+$streamProvider = new XmlStringStreamer\StreamProvider\File("gigantic.xml", 1024, function($buffer, $readBytes) use (&$counter) {
+	// $buffer contains last read buffer
+	// $readBytes is the total read bytes count
+	$counter++;
+});
+````
+
 ### Creating a CLI tool
 
 Create a file `streamer.php`:
@@ -126,7 +140,7 @@ $parser = new XmlStringStreamer\Parser($streamProvider, $options);
 
 | Option | Default | Description |
 | ------ | ------- | ----------- |
-| (int) captureDepth | `1` | Depth we start we start collecting nodes at |
+| (int) captureDepth | `1` | Depth we start collecting nodes at |
 | (array) tags | See example | Supported tags |
 | (bool) expectGT | `false` | Whether to support `>` in XML comments/CDATA or not |
 | (array) tagsWithAllowedGT | See example | If _expectGT_ is `true`, this option lists the tags with allowed `>` characters in them |
