@@ -16,7 +16,7 @@ class StringWalker implements ParserInterface
 
     /**
      * Parser contructor
-     * @param array $options An options array decided
+     * @param array $options An options array
      */
     public function __construct(array $options = array())
     {
@@ -132,48 +132,6 @@ class StringWalker implements ParserInterface
         } else {
             if (trim($this->chunk) !== "") {
                 return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Gets a node from the XML
-     * @return string|bool Either an XML node or false if end of file
-     */
-    public function getNode()
-    {
-        // Iterate and append to $this->chunk
-
-        while ($this->prepareChunk()) {
-            $this->firstRun = false;
-            // Shave off elements
-            while ($shaved = $this->shave()) {
-                list($element, $data) = $shaved;
-
-                if ($this->capture) {
-                    $this->shaved .= $data;
-                }
-
-                // Analyze element
-                list($opening, $closing, $depth) = $this->getEdges($element);
-
-                // Update depth
-                $this->depth += $depth;
-
-                if ($this->depth === $this->options["captureDepth"]) {
-                    if (!$this->capture) {
-                        // Desired depth encountered - Start capturing
-                        $this->capture = true;
-                    } else {
-                        // Whole node is captured, flush it out
-                        $flush = $this->shaved;
-                        $this->shaved = null;
-
-                        return $flush;
-                    }
-                }
             }
         }
 
