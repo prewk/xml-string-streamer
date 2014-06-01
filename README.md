@@ -14,9 +14,9 @@ Add to `composer.json`:
 
 ````json
 {
-	"require": {
-		"prewk/xml-string-streamer": "~0.3.1"
-	}
+    "require": {
+        "prewk/xml-string-streamer": "~0.4.0"
+    }
 }
 
 ````
@@ -39,110 +39,89 @@ Let's say you have a 2 GB XML file gigantic.xml containing customer items that l
 </gigantic>
 ````
 
-Parse through it in chunks like this:
+Create a streamer and parse it:
 
 ````php
-use Prewk\XmlStringStreamer;
+// Convenience method for creating a file streamer with the default parser
+$streamer = Prewk\XmlStringStreamer::createStringShaver("gigantic.xml");
 
-// Prepare our stream to be read with a 1kb buffer
-$streamProvider = new XmlStringStreamer\StreamProvider\File("gigantic.xml", 1024);
-
-// Construct the parser
-$parser = new XmlStringStreamer\Parser($streamProvider);
-
-// Iterate through the `<customer>` nodes
-while ($node = $parser->getNode()) {
-	// $node will be a string like this: "<customer><firstName>Jane</firstName><lastName>Doe</lastName></customer>"
-	$simpleXmlNode = simplexml_load_string($node);
-	echo (string)$simpleXmlNode->firstName;
+while ($node = $streamer->getNode()) {
+    // $node will be a string like this: "<customer><firstName>Jane</firstName><lastName>Doe</lastName></customer>"
+    $simpleXmlNode = simplexml_load_string($node);
+    echo (string)$simpleXmlNode->firstName;
 }
 ````
 
-Stream providers
----------
+Without the convenience method (functionally equivalient):
 
-### StreamProvider\File
+````php
+use Prewk\XmlStringStreamer;
+use Prewk\XmlStringStreamer\Stream;
+use Prewk\XmlStringStreamer\Parser;
+
+// Prepare our stream to be read with a 1kb buffer
+$stream = new Stream\File("gigantic.xml", 1024);
+
+// Construct the default parser (StringWalker)
+$parser = new Parser\StringWalker()
+
+// Create the streamer
+$streamer = new XmlStringStreamer($parser, $stream);
+
+// Iterate through the `<customer>` nodes
+while ($node = $streamer->getNode()) {
+    // $node will be a string like this: "<customer><firstName>Jane</firstName><lastName>Doe</lastName></customer>"
+    $simpleXmlNode = simplexml_load_string($node);
+    echo (string)$simpleXmlNode->firstName;
+}
+````
+
+Parsers
+-------
+
+### Parser\StringWalker
+
+Currently the only parser, more will be available.
+
+Stream providers
+----------------
+
+### Stream\File
 
 Use this provider to parse large XML files on disk. Pick a chunk size, for example: 1024 bytes.
 
 ````php
 $CHUNK_SIZE = 1024;
-$provider = new Prewk\XmlStringStreamer\StreamProvider\File("large-xml-file.xml", $CHUNK_SIZE);
+$provider = new Prewk\XmlStringStreamer\Stream\File("large-xml-file.xml", $CHUNK_SIZE);
 ````
 
-### StreamProvider\Stdin
+### Stream\Stdin
 
 Use this provider if you want to create a CLI application that streams large XML files through STDIN.
 
 ````php
 $CHUNK_SIZE = 1024;
-$fsp = new Prewk\XmlStringStreamer\StreamProvider\Stdin($CHUNK_SIZE);
+$fsp = new Prewk\XmlStringStreamer\Stream\Stdin($CHUNK_SIZE);
 ````
 
-### StreamProvider\Guzzler
-
-Uses [Guzzler](https://github.com/guzzle/guzzle) to stream XML data from an URL.
-
-Requires PHP 5.4+ and is therefore in a different repo: [https://github.com/prewk/xml-string-streamer-guzzle](https://github.com/prewk/xml-string-streamer-guzzle)
-
-Advanced examples
------------------
-
-### Chunk closure
-
-The `StreamProvider\File` provider can be provided with a closure that will be called on every chunk read:
-
-````php
-$counter = 0;
-$streamProvider = new XmlStringStreamer\StreamProvider\File("gigantic.xml", 1024, function($buffer, $readBytes) use (&$counter) {
-	// $buffer contains last read buffer
-	// $readBytes is the total read bytes count
-	$counter++;
-});
-````
-
-### Creating a CLI tool
-
-Create a file `streamer.php`:
-
-````php
-require("vendor/autoload.php"); // Using the composer autoloader
-
-use Prewk\XmlStringStreamer;
-use Prewk\XmlStringStreamer\StreamProvider;
-
-$streamProvider = new StreamProvider\Stdin(50);
-$parser = new XmlStringStreamer\Parser($streamProvider);
-while ($node = $parser->getNode()) {
-    echo "-----\n";
-    echo "$xmlNode\n";
-    echo "-----\n";
-}
-````
-
-Usage:
-
-````sh
-php streamer.php <<< "<root-node><node><a>123</a></node><node><a>456</a></node><node><a>789</a></node></root-node>"
-````
-
-
-Options
--------
+StringWalker Options
+--------------------
 
 ### Usage
 
 ````php
 use Prewk\XmlStringStreamer;
+use Prewk\XmlStringStreamer\Parser;
+use Prewk\XmlStringStreamer\Stream;
 
 $options = array(
-	"captureDepth" => 2
+    "captureDepth" => 2
 );
 
-$parser = new XmlStringStreamer\Parser($streamProvider, $options);
+$parser = new XmlStringStreamer\Parser\StringWalker($streamProvider, $options);
 ````
 
-### Available options
+### Available options for the StringWalker parser
 
 | Option | Default | Description |
 | ------ | ------- | ----------- |
@@ -160,12 +139,12 @@ Default behavior with a capture depth of `1`:
 ````xml
 <?xml encoding="utf-8"?>
 <root-node>
-	<capture-me>
-		...
-	</capture-me>
-	<capture-me>
-		...
-	</capture-me>
+    <capture-me>
+        ...
+    </capture-me>
+    <capture-me>
+        ...
+    </capture-me>
 </root-node>
 ````
 
@@ -176,14 +155,14 @@ But say your XML looks like this:
 ````xml
 <?xml encoding="utf-8"?>
 <root-node>
-	<a-sub-node>
-		<capture-me-instead>
-			...
-		</capture-me-instead>
-		<capture-me-instead>
-			...
-		</capture-me-instead>
-	</a-sub-node>
+    <a-sub-node>
+        <capture-me-instead>
+            ...
+        </capture-me-instead>
+        <capture-me-instead>
+            ...
+        </capture-me-instead>
+    </a-sub-node>
 </root-node>
 ````
 Then you'll need to set the capture depth to `2` to capture the `<capture-me-instead>` nodes.
@@ -192,10 +171,10 @@ Node depth visualized:
 
 ````xml
 <0>
-	<1>
-		<2>
-		</2>
-	</1>
+    <1>
+        <2>
+        </2>
+    </1>
 </0>
 ````
 
@@ -205,13 +184,13 @@ Default value:
 
 ````php
 array(
-	array("<?", "?>", 0),
-	array("<!--", "-->", 0),
-	array("<![CDATA[", "]]>", 0),
-	array("<!", ">", 0),
-	array("</", ">", -1),
-	array("<", "/>", 0),
-	array("<", ">", 1)
+    array("<?", "?>", 0),
+    array("<!--", "-->", 0),
+    array("<![CDATA[", "]]>", 0),
+    array("<!", ">", 0),
+    array("</", ">", -1),
+    array("<", "/>", 0),
+    array("<", ">", 1)
 ),
 ````
 
@@ -221,10 +200,10 @@ If you know that your XML doesn't have any XML comments, CDATA or self-closing t
 
 ````php
 array(
-	array("<?", "?>", 0),
-	array("<!", ">", 0),
-	array("</", ">", -1),
-	array("<", ">", 1)
+    array("<?", "?>", 0),
+    array("<!", ">", 0),
+    array("</", ">", -1),
+    array("<", ">", 1)
 ),
 ````
 
@@ -236,7 +215,7 @@ Default value for tagsWithAllowedGT:
 
 ````php
 array(
-	array("<!--", "-->"),
-	array("<![CDATA[", "]]>")
+    array("<!--", "-->"),
+    array("<![CDATA[", "]]>")
 ),
 ````

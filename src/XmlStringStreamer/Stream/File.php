@@ -1,6 +1,8 @@
-<?php namespace Prewk\XmlStringStreamer\StreamProvider;
+<?php namespace Prewk\XmlStringStreamer\Stream;
 
-class File implements iStreamProvider
+use Prewk\XmlStringStreamer\StreamInterface;
+
+class File implements StreamInterface
 {
     private $handle;
     private $readBytes = 0;

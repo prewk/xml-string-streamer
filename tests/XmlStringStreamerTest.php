@@ -1,18 +1,20 @@
 <?php
 
 use Prewk\XmlStringStreamer;
-use Prewk\XmlStringStreamer\StreamProvider;
+use Prewk\XmlStringStreamer\Stream;
+use Prewk\XmlStringStreamer\Parser;
 
 class XmlStringStreamerTest extends PHPUnit_Framework_TestCase
 {
     public function testCustomCaptureDepthAndSelfClosing()
     {
-        $streamProvider = new StreamProvider\File(__dir__ . "/orphanet-xml-example.xml", 1000);
+        $streamProvider = new Stream\File(__dir__ . "/orphanet-xml-example.xml", 1000);
         $orphaNumbers = array();
-        $streamer = new XmlStringStreamer\Parser($streamProvider, array(
+        $parser = new Parser\StringWalker(array(
             "captureDepth" => 2,
             "expectGT" => true,
         ));
+        $streamer = new XmlStringStreamer($parser, $streamProvider);
         while ($node = $streamer->getNode()) {
             $xml = simplexml_load_string($node);
             $orphaNumbers[] = intval((string)$xml->OrphaNumber);
@@ -33,10 +35,10 @@ class XmlStringStreamerTest extends PHPUnit_Framework_TestCase
         $xmlFaker->asFile($tmpFile, \Prewk\XmlFaker::NODE_COUNT_RESTRICTION_MODE, $nodeNo);
 
         $memoryUsageBefore = memory_get_usage(true);
-        $streamProvider = new StreamProvider\File($tmpFile, 100);
+        $streamProvider = new Stream\File($tmpFile, 100);
 
         $counter = 0;
-        $streamer = new XmlStringStreamer\Parser($streamProvider, array(
+        $parser = new Parser\StringWalker(array(
             "tags" => array(
                 array("<?", "?>", 0),
                 array("</", ">", -1),
@@ -44,6 +46,7 @@ class XmlStringStreamerTest extends PHPUnit_Framework_TestCase
             ),
             "expectGT" => false,
         ));
+        $streamer = new XmlStringStreamer($parser, $streamProvider);
 
         while ($node = $streamer->getNode()) {
             $counter++;
@@ -71,12 +74,13 @@ class XmlStringStreamerTest extends PHPUnit_Framework_TestCase
 
         $counter = 0;
         $totalReadBytes = 0;
-        $streamProvider = new StreamProvider\File($tmpFile, $chunkSize, function($buffer, $readBytes) use (&$counter, &$totalReadBytes) {
+        $streamProvider = new Stream\File($tmpFile, $chunkSize, function($buffer, $readBytes) use (&$counter, &$totalReadBytes) {
             $counter++;
             $totalReadBytes = $readBytes;
         });
 
-        $streamer = new XmlStringStreamer\Parser($streamProvider);
+        $parser = new Parser\StringWalker();
+        $streamer = new XmlStringStreamer($parser, $streamProvider);
 
         while ($node = $streamer->getNode()) {
 
@@ -93,13 +97,14 @@ class XmlStringStreamerTest extends PHPUnit_Framework_TestCase
 
     public function testXmlWithComments()
     {
-        $streamProvider = new StreamProvider\File(__dir__ . "/xmlWithComments.xml", 70);
+        $streamProvider = new Stream\File(__dir__ . "/xmlWithComments.xml", 70);
         
         $expectedStrings = array("Foo", "Bar", "Baz", "Foo", "Bar");
 
         $foundStrings = array();
 
-        $streamer = new XmlStringStreamer\Parser($streamProvider);
+        $parser = new Parser\StringWalker();
+        $streamer = new XmlStringStreamer($parser, $streamProvider);
         
         while ($node = $streamer->getNode()) {
             $xml = simplexml_load_string($node);
@@ -111,13 +116,14 @@ class XmlStringStreamerTest extends PHPUnit_Framework_TestCase
 
     public function testXmlWithCDATA()
     {
-        $streamProvider = new StreamProvider\File(__dir__ . "/xmlWithCDATA.xml", 70);
+        $streamProvider = new Stream\File(__dir__ . "/xmlWithCDATA.xml", 70);
         
         $expectedStrings = array("Foo", "Bar", "Baz", "Foo", "Bar");
 
         $foundStrings = array();
 
-        $streamer = new XmlStringStreamer\Parser($streamProvider);
+        $parser = new Parser\StringWalker();
+        $streamer = new XmlStringStreamer($parser, $streamProvider);
 
         while ($node = $streamer->getNode()) {
             $xml = simplexml_load_string($node);
@@ -129,13 +135,14 @@ class XmlStringStreamerTest extends PHPUnit_Framework_TestCase
 
     public function testXmlWithDoctype()
     {
-        $streamProvider = new StreamProvider\File(__dir__ . "/xmlWithDoctype.xml", 70);
+        $streamProvider = new Stream\File(__dir__ . "/xmlWithDoctype.xml", 70);
         
         $expectedStrings = array("Foo", "Bar", "Baz", "Foo", "Bar");
 
         $foundStrings = array();
 
-        $streamer = new XmlStringStreamer\Parser($streamProvider);
+        $parser = new Parser\StringWalker();
+        $streamer = new XmlStringStreamer($parser, $streamProvider);
         
         while ($node = $streamer->getNode()) {
             $xml = simplexml_load_string($node);

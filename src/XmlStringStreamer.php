@@ -1,0 +1,45 @@
+<?php namespace Prewk;
+
+use Prewk\XmlStringStreamer\ParserInterface;
+use Prewk\XmlStringStreamer\StreamInterface;
+use Prewk\XmlStringStreamer\Parser;
+use Prewk\XmlStringStreamer\Stream;
+
+class XmlStringStreamer
+{
+    protected $parser;
+    protected $stream;
+
+    /**
+     * Constructs the XML streamer
+     * @param ParserInterface $parser A parser with options set
+     * @param StreamInterface $stream A stream for the parser to use
+     */
+    public function __construct(ParserInterface $parser, StreamInterface $stream)
+    {
+        $this->parser = $parser;
+        $this->stream = $stream;
+    }
+
+    /**
+     * Convenience method for creating a StringWalker parser with a File stream
+     * @param  string|resource $file    File path or handle
+     * @param  array           $options Parser configuration
+     * @return XmlStringStreamer        A streamer ready for use
+     */
+    public static function createStringWalker($file, $options = array())
+    {
+        $stream = new Stream\File($file, 1024);
+        $parser = new Parser\StringWalker($options);
+        return new XmlStringStreamer($parser, $stream);
+    }
+
+    /**
+     * Gets the next node from the parser
+     * @return bool|string The xml string or false
+     */
+    public function getNode()
+    {
+        return $this->parser->getNodeFrom($this->stream);
+    }
+}

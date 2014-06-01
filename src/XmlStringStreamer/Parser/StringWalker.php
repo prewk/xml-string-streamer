@@ -1,8 +1,10 @@
-<?php namespace Prewk\XmlStringStreamer;
+<?php namespace Prewk\XmlStringStreamer\Parser;
 
-class Parser
+use Prewk\XmlStringStreamer\ParserInterface;
+use Prewk\XmlStringStreamer\StreamInterface;
+
+class StringWalker implements ParserInterface
 {
-    protected $provider;
     protected $options;
 
     protected $firstRun = true;
@@ -13,11 +15,10 @@ class Parser
     protected $capture = false;
 
     /**
-     * Constructor
-     * @param StreamProvider\iStreamProvider $provider Stream provider
-     * @param array  $options  Options
+     * Parser contructor
+     * @param array $options An options array decided
      */
-    public function __construct(StreamProvider\iStreamProvider $provider, $options = array())
+    public function __construct(array $options = array())
     {
         $this->options = array_merge(array(
             "captureDepth" => 1,
@@ -36,8 +37,6 @@ class Parser
                 array("<![CDATA[", "]]>"),
             ),
         ), $options);
-
-        $this->provider = $provider;
     }
 
     /**
@@ -110,10 +109,10 @@ class Parser
     }
 
     /**
-     * The shave method must be able to request more data even though there isn't any more to fetch from the provider, this method wraps the getChunk call so that it returns true as long as there is XML data left
+     * The shave method must be able to request more data even though there isn't any more to fetch from the stream, this method wraps the getChunk call so that it returns true as long as there is XML data left
      * @return bool Returns whether there is more XML data or not
      */
-    protected function prepareChunk()
+    protected function prepareChunk($stream)
     {
         if (!$this->firstRun && is_null($this->shaved)) {
             // We're starting again after a flush
@@ -124,7 +123,7 @@ class Parser
             $this->shaved = "";
         }
 
-        $newChunk = $this->provider->getChunk();
+        $newChunk = $stream->getChunk();
 
         if ($newChunk !== false) {
             $this->chunk .= $newChunk;
@@ -180,4 +179,47 @@ class Parser
 
         return false;
     }
+
+    /**
+     * Tries to retrieve the next node or returns false
+     * @param  StreamInterface $stream The stream to use
+     * @return string|bool             The next xml node or false if one could not be retrieved
+     */
+    public function getNodeFrom(StreamInterface $stream)
+    {
+        // Iterate and append to $this->chunk
+
+        while ($this->prepareChunk($stream)) {
+            $this->firstRun = false;
+            // Shave off elements
+            while ($shaved = $this->shave()) {
+                list($element, $data) = $shaved;
+
+                if ($this->capture) {
+                    $this->shaved .= $data;
+                }
+
+                // Analyze element
+                list($opening, $closing, $depth) = $this->getEdges($element);
+
+                // Update depth
+                $this->depth += $depth;
+
+                if ($this->depth === $this->options["captureDepth"]) {
+                    if (!$this->capture) {
+                        // Desired depth encountered - Start capturing
+                        $this->capture = true;
+                    } else {
+                        // Whole node is captured, flush it out
+                        $flush = $this->shaved;
+                        $this->shaved = null;
+
+                        return $flush;
+                    }
+                }
+            }
+        }
+
+        return false;
+	}
 }
