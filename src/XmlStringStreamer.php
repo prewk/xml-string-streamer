@@ -27,10 +27,17 @@ class XmlStringStreamer
      * @param  array           $options Parser configuration
      * @return XmlStringStreamer        A streamer ready for use
      */
-    public static function createStringWalker($file, $options = array())
+    public static function createStringWalkerParser($file, $options = array())
     {
         $stream = new Stream\File($file, 1024);
         $parser = new Parser\StringWalker($options);
+        return new XmlStringStreamer($parser, $stream);
+    }
+
+    public static function createUniqueNodeParser($file, $options = array())
+    {
+        $stream = new Stream\File($file, 1024);
+        $parser = new Parser\UniqueNode($options);
         return new XmlStringStreamer($parser, $stream);
     }
 

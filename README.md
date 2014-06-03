@@ -43,7 +43,7 @@ Create a streamer and parse it:
 
 ````php
 // Convenience method for creating a file streamer with the default parser
-$streamer = Prewk\XmlStringStreamer::createStringWalker("gigantic.xml");
+$streamer = Prewk\XmlStringStreamer::createStringWalkerParser("gigantic.xml");
 
 while ($node = $streamer->getNode()) {
     // $node will be a string like this: "<customer><firstName>Jane</firstName><lastName>Doe</lastName></customer>"
