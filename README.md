@@ -114,6 +114,10 @@ $CHUNK_SIZE = 1024;
 $fsp = new Prewk\XmlStringStreamer\Stream\Stdin($CHUNK_SIZE);
 ````
 
+### Stream\Guzzle
+
+Use this provider if you want to stream over HTTP with [Guzzle](https://github.com/guzzle/guzzle). Resides in its own repo due to its higher PHP version requirements (5.4): [https://github.com/prewk/xml-string-streamer-guzzle](https://github.com/prewk/xml-string-streamer-guzzle)
+
 StringWalker Options
 --------------------
 
