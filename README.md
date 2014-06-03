@@ -15,7 +15,7 @@ Add to `composer.json`:
 ````json
 {
     "require": {
-        "prewk/xml-string-streamer": "~0.4.0"
+        "prewk/xml-string-streamer": "~0.5.0"
     }
 }
 
@@ -74,6 +74,12 @@ while ($node = $streamer->getNode()) {
     $simpleXmlNode = simplexml_load_string($node);
     echo (string)$simpleXmlNode->firstName;
 }
+````
+
+Convenience method for the UniqueNode parser:
+
+````php
+$streamer = Prewk\XmlStringStreamer::createUniqueNodeParser("file.xml", array("uniqueNode" => "customer"));
 ````
 
 Parsers
