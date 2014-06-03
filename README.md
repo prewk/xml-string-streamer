@@ -81,7 +81,11 @@ Parsers
 
 ### Parser\StringWalker
 
-Currently the only parser, more will be available.
+Works like a XmlReader, and walks the XML tree node by node. Captures by node depth setting.
+
+### Parser\UniqueNode
+
+A much faster parser that captures everything between a provided element's opening and closing tags. Special prerequisites apply.
 
 Stream providers
 ----------------
@@ -219,3 +223,64 @@ array(
     array("<![CDATA[", "]]>")
 ),
 ````
+
+UniqueNode Options
+------------------
+
+### Usage
+
+````php
+use Prewk\XmlStringStreamer;
+use Prewk\XmlStringStreamer\Parser;
+use Prewk\XmlStringStreamer\Stream;
+
+$options = array(
+    "uniqueNode" => "TheNodeToCapture"
+);
+
+$parser = new XmlStringStreamer\Parser\StringWalker($streamProvider, $options);
+````
+
+### Available options for the StringWalker parser
+
+| Option | Description |
+| ------ | ----------- |
+| (string) uniqueNode | Required option: Specify the node name to capture |
+
+### Examples
+
+#### uniqueNode
+
+Say you have an XML file like this:
+````xml
+<?xml encoding="utf-8"?>
+<root-node>
+    <stuff foo="bar">
+        ...
+    </stuff>
+    <stuff foo="baz">
+        ...
+    </stuff>
+    <stuff foo="123">
+        ...
+    </stuff>
+</root-node>
+````
+
+You want to capture the stuff nodes, therefore set _uniqueNode_ to `"stuff"`.
+
+But if your XML file look like this:
+````xml
+<?xml encoding="utf-8"?>
+<root-node>
+    <stuff foo="bar">
+        <heading>Lorem ipsum</heading>
+        <content>
+            <stuff>Oops, another stuff node</stuff>
+        </content>
+    </stuff>
+    ...
+</root-node>
+````
+
+..you won't be able to use the UniqueNode parser, because `<stuff>` exists inside of another `<stuff>` node.
