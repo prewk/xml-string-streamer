@@ -81,7 +81,7 @@ Parsers
 
 ### Parser\StringWalker
 
-Works like a XmlReader, and walks the XML tree node by node. Captures by node depth setting.
+Works like an XmlReader, and walks the XML tree node by node. Captures by node depth setting.
 
 ### Parser\UniqueNode
 
