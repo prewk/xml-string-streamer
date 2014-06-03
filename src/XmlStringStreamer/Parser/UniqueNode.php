@@ -28,23 +28,6 @@ class UniqueNode implements ParserInterface
         }
     }
 
-    protected function prepareChunk($stream)
-    {
-        if ($this->hasSearchedUntilPos > -1 && $this->hasSearchedUntilPos < (strlen($this->workingBlob) - 1)) {
-            // More work to do
-            return true;
-        }
-
-        $chunk = $stream->getChunk();
-        
-        if ($chunk === false) {
-            return false;
-        } else {
-            $this->workingBlob .= $chunk;
-            return true;
-        }
-    }
-
     /**
      * Search the blob for our unique node's opening tag
      * @return bool|int Either returns the char position of the opening tag or false
@@ -100,6 +83,30 @@ class UniqueNode implements ParserInterface
     }
 
     /**
+     * Decides whether we're to fetch more chunks from the stream or keep working with what we have.
+     * @param  StreamInterface $stream The stream provider
+     * @return bool                    Keep working?
+     */
+    protected function prepareChunk(StreamInterface $stream)
+    {
+        if ($this->hasSearchedUntilPos > -1 && $this->hasSearchedUntilPos < (strlen($this->workingBlob) - 1)) {
+            // More work to do
+            return true;
+        }
+
+        $chunk = $stream->getChunk();
+        
+        if ($chunk === false) {
+            // EOF
+            return false;
+        } else {
+            // New chunk fetched
+            $this->workingBlob .= $chunk;
+            return true;
+        }
+    }
+
+    /**
      * Tries to retrieve the next node or returns false
      * @param  StreamInterface $stream The stream to use
      * @return string|bool             The next xml node or false if one could not be retrieved
@@ -107,18 +114,29 @@ class UniqueNode implements ParserInterface
     public function getNodeFrom(StreamInterface $stream)
     {
         while ($this->prepareChunk($stream)) {
+            // What's our next course of action?
             if ($this->nextAction === self::FIND_OPENING_TAG_ACTION) {
+                // Try to find an opening tag
                 $positionInBlob = $this->getOpeningTagPos();
+
                 if ($positionInBlob !== false) {
+                    // We found it, start salvaging
                     $this->startSalvaging($positionInBlob);
+
+                    // The next course of action will be to find a closing tag
                     $this->nextAction = self::FIND_CLOSING_TAG_ACTION;
                 }
             } else if ($this->nextAction === self::FIND_CLOSING_TAG_ACTION) {
+                // Try to find a closing tag
                 $positionInBlob = $this->getClosingTagPos();
                 if ($positionInBlob !== false) {
+                    // We found it, we now have a full node to flush out
                     $this->flush($positionInBlob);
+
+                    // The next course of action will be to find an opening tag
                     $this->nextAction = self::FIND_OPENING_TAG_ACTION;
 
+                    // Get the flushed node and make way for the next node
                     $flushed = $this->flushed;
                     $this->flushed = "";
 
