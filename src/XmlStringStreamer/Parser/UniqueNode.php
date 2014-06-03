@@ -8,8 +8,11 @@ class UniqueNode implements ParserInterface
     protected $workingBlob = "";
     protected $flushed = "";
 
-    protected const FIND_OPENING_TAG_ACTION = 0;
-    protected const FIND_CLOSING_TAG_ACTION = 1;
+    protected $startPos = 0;
+    protected $hasSearchedUntilPos = -1;
+
+    const FIND_OPENING_TAG_ACTION = 0;
+    const FIND_CLOSING_TAG_ACTION = 1;
     protected $nextAction = 0;
 
     /**
@@ -27,7 +30,7 @@ class UniqueNode implements ParserInterface
 
     protected function prepareChunk($stream)
     {
-        if (strlen($this->workingBlob) > 0) {
+        if ($this->hasSearchedUntilPos > -1 && $this->hasSearchedUntilPos < (strlen($this->workingBlob) - 1)) {
             // More work to do
             return true;
         }
@@ -48,7 +51,17 @@ class UniqueNode implements ParserInterface
      */
     protected function getOpeningTagPos()
     {
+        $startPositionInBlob = false;
+        if (preg_match("/<" . preg_quote($this->options["uniqueNode"]) . "(>| )/", $this->workingBlob, $matches, PREG_OFFSET_CAPTURE) === 1) {
+            $startPositionInBlob = $matches[0][1];
+        }
 
+        
+        if ($startPositionInBlob === false) {
+            $this->hasSearchedUntilPos = strlen($this->workingBlob) - 1;
+        }
+
+        return $startPositionInBlob;
     }
 
     /**
@@ -57,7 +70,13 @@ class UniqueNode implements ParserInterface
      */
     protected function getClosingTagPos()
     {
+        $endPositionInBlob = strpos($this->workingBlob, "</" . $this->options["uniqueNode"] . ">");
 
+        if ($endPositionInBlob === false) {
+            $this->hasSearchedUntilPos = strlen($this->workingBlob) - 1;
+        }
+
+        return $endPositionInBlob;
     }
 
     /**
@@ -66,15 +85,18 @@ class UniqueNode implements ParserInterface
      */
     protected function startSalvaging($startPositionInBlob)
     {
-
+        $this->startPos = $startPositionInBlob;
     }
 
     /**
-     * Grab everything from the start position to the end position in the workingBlob (+ tag length) and flush it out for later return in getNodeFrom
+     * Cut everything from the start position to the end position in the workingBlob (+ tag length) and flush it out for later return in getNodeFrom
      * @param  int $endPositionInBlob Position of the closing tag
      */
     protected function flush($endPositionInBlob) {
-
+        $realEndPosition = $endPositionInBlob + strlen("</" . $this->options["uniqueNode"] . ">");
+        $this->flushed = substr($this->workingBlob, $this->startPos, $realEndPosition - $this->startPos);
+        $this->workingBlob = substr($this->workingBlob, $realEndPosition);
+        $this->hasSearchedUntilPos = 0;
     }
 
     /**
@@ -86,7 +108,7 @@ class UniqueNode implements ParserInterface
     {
         while ($this->prepareChunk($stream)) {
             if ($this->nextAction === self::FIND_OPENING_TAG_ACTION) {
-                $positionInBlob = $this->getOpeningTagPos()
+                $positionInBlob = $this->getOpeningTagPos();
                 if ($positionInBlob !== false) {
                     $this->startSalvaging($positionInBlob);
                     $this->nextAction = self::FIND_CLOSING_TAG_ACTION;
@@ -99,6 +121,7 @@ class UniqueNode implements ParserInterface
 
                     $flushed = $this->flushed;
                     $this->flushed = "";
+
                     return $flushed;
                 }
             }
