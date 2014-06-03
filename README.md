@@ -238,10 +238,10 @@ $options = array(
     "uniqueNode" => "TheNodeToCapture"
 );
 
-$parser = new XmlStringStreamer\Parser\StringWalker($streamProvider, $options);
+$parser = new XmlStringStreamer\Parser\UniqueNode($streamProvider, $options);
 ````
 
-### Available options for the StringWalker parser
+### Available options for the UniqueNode parser
 
 | Option | Description |
 | ------ | ----------- |
