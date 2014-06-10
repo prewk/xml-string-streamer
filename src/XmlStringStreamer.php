@@ -34,6 +34,12 @@ class XmlStringStreamer
         return new XmlStringStreamer($parser, $stream);
     }
 
+    /**
+     * Convenience method for creating a UniqueNode parser with a File stream
+     * @param  string|resource $file    File path or handle
+     * @param  array           $options Parser configuration
+     * @return XmlStringStreamer        A streamer ready for use
+     */
     public static function createUniqueNodeParser($file, $options = array())
     {
         $stream = new Stream\File($file, 1024);
