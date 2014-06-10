@@ -11,7 +11,7 @@ namespace Prewk\XmlStringStreamer\Parser;
 use Prewk\XmlStringStreamer\ParserInterface;
 use Prewk\XmlStringStreamer\StreamInterface;
 
-class XmlReader implements ParserInterface
+class Reader implements ParserInterface
 {
     /**
      * Parser contructor
