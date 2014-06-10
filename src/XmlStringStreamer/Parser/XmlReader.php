@@ -20,10 +20,6 @@ class XmlReader implements ParserInterface
     public function __construct(array $options = array())
     {
         $this->options = array_merge(array(), $options);
-
-        if (!isset($this->options["uniqueNode"])) {
-            throw new \Exception("Required option 'uniqueNode' not set");
-        }
     }
 
     /**
@@ -33,6 +29,6 @@ class XmlReader implements ParserInterface
      */
     public function getNodeFrom(StreamInterface $stream)
     {
-        
+
     }
 }
