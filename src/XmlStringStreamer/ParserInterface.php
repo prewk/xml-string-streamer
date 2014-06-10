@@ -1,5 +1,16 @@
-<?php namespace Prewk\XmlStringStreamer;
+<?php
+/**
+ * xml-string-streamer Parser interface
+ * 
+ * @package xml-string-streamer
+ * @author  Oskar Thornblad <oskar.thornblad@gmail.com>
+ */
 
+namespace Prewk\XmlStringStreamer;
+
+/**
+ * Interface describing a parser
+ */
 interface ParserInterface
 {
     /**

@@ -1,13 +1,32 @@
-<?php namespace Prewk;
+<?php
+/**
+ * xml-string-streamer base class
+ * 
+ * @package xml-string-streamer
+ * @author  Oskar Thornblad <oskar.thornblad@gmail.com>
+ */
+
+namespace Prewk;
 
 use Prewk\XmlStringStreamer\ParserInterface;
 use Prewk\XmlStringStreamer\StreamInterface;
 use Prewk\XmlStringStreamer\Parser;
 use Prewk\XmlStringStreamer\Stream;
 
+/**
+ * The base class for the xml-string-streamer
+ */
 class XmlStringStreamer
 {
+    /**
+     * The current parser
+     * @var ParserInterface
+     */
     protected $parser;
+    /**
+     * The current stream
+     * @var StreamInterface
+     */
     protected $stream;
 
     /**

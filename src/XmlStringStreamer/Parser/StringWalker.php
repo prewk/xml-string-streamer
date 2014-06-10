@@ -1,17 +1,55 @@
-<?php namespace Prewk\XmlStringStreamer\Parser;
+<?php
+/**
+ * xml-string-streamer StringWalker parser
+ * 
+ * @package xml-string-streamer
+ * @author  Oskar Thornblad <oskar.thornblad@gmail.com>
+ */
+
+namespace Prewk\XmlStringStreamer\Parser;
 
 use Prewk\XmlStringStreamer\ParserInterface;
 use Prewk\XmlStringStreamer\StreamInterface;
 
+/**
+ * The string walker parser builds the XML nodes by fetching one element at a time until a certain depth is re-reached
+ */
 class StringWalker implements ParserInterface
 {
+    /**
+     * Holds the parser configuration
+     * @var array
+     */
     protected $options;
 
+    /**
+     * Is this the first run?
+     * @var boolean
+     */
     protected $firstRun = true;
+
+    /**
+     * What depth are we currently at?
+     * @var integer
+     */
     protected $depth = 0;
+
+    /**
+     * The latest chunk from the stream
+     * @var string
+     */
     protected $chunk;
+
+    /**
+     * XML node in the making
+     * @var null|string
+     */
     protected $shaved = null;
 
+    /**
+     * Whether to capture or not
+     * @var boolean
+     */
     protected $capture = false;
 
     /**
@@ -107,12 +145,13 @@ class StringWalker implements ParserInterface
             }
         }
     }
-
+    
     /**
      * The shave method must be able to request more data even though there isn't any more to fetch from the stream, this method wraps the getChunk call so that it returns true as long as there is XML data left
+     * @param  StreamInterface $stream The stream to read from
      * @return bool Returns whether there is more XML data or not
      */
-    protected function prepareChunk($stream)
+    protected function prepareChunk(StreamInterface $stream)
     {
         if (!$this->firstRun && is_null($this->shaved)) {
             // We're starting again after a flush

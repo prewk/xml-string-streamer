@@ -1,19 +1,51 @@
-<?php namespace Prewk\XmlStringStreamer\Parser;
+<?php
+/**
+ * xml-string-streamer UniqueNode parser
+ * 
+ * @package xml-string-streamer
+ * @author  Oskar Thornblad <oskar.thornblad@gmail.com>
+ */
+
+namespace Prewk\XmlStringStreamer\Parser;
 
 use Prewk\XmlStringStreamer\ParserInterface;
 use Prewk\XmlStringStreamer\StreamInterface;
 
+/**
+ * The unique node parser starts at a given element name and flushes when its corresponding closing tag is found
+ */
 class UniqueNode implements ParserInterface
 {
-    protected $workingBlob = "";
-    protected $flushed = "";
+    /**
+     * Current working XML blob
+     * @var string
+     */
+    private $workingBlob = "";
+    /**
+     * The flushed node
+     * @var string
+     */
+    private $flushed = "";
 
-    protected $startPos = 0;
-    protected $hasSearchedUntilPos = -1;
+    /**
+     * Start position of the given element in the workingBlob
+     * @var integer
+     */
+    private $startPos = 0;
+    /**
+     * Records how far we've searched in the XML blob so far
+     * @var integer
+     */
+    private $hasSearchedUntilPos = -1;
 
     const FIND_OPENING_TAG_ACTION = 0;
     const FIND_CLOSING_TAG_ACTION = 1;
-    protected $nextAction = 0;
+
+    /**
+     * Next action to perform
+     * @var integer
+     */
+    private $nextAction = 0;
 
     /**
      * Parser contructor
