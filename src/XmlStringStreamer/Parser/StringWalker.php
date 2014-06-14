@@ -102,8 +102,6 @@ class StringWalker implements ParserInterface
                             if ($position === false) {
                                 // We need more XML!
 
-                                $this->timeShave += microtime(true) - $time;
-
                                 return false;
                             }
 
