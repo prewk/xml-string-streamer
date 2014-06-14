@@ -21,6 +21,6 @@ class XmlStringStreamerTest extends PHPUnit_Framework_TestCase
 
         $streamer = new XmlStringStreamer($parser, $stream);
         
-        $this->assertEquals($streamer->getNode(), $node, "Node received from the parser should be what was expected");
+        $this->assertEquals($node, $streamer->getNode(), "Node received from the parser should be what was expected");
     }
 }
