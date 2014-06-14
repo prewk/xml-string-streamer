@@ -157,6 +157,7 @@ eot;
         $node2 = <<<eot
             <child>
                 <foo baz="attribute">Lorem</foo>
+                <![CDATA[A CDATA element]]>
                 <bar>Ipsum</bar>
                 <index>2</index>
             </child>
