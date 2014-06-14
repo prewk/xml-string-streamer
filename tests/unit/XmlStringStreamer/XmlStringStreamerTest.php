@@ -1,12 +1,23 @@
 <?php
 
 use Prewk\XmlStringStreamer;
-use Mockery;
 
 class XmlStringStreamerTest extends PHPUnit_Framework_TestCase
 {
-    public function testGetNode()
+    public function test_getNode()
     {
-        $mock = Mockery::mock("XmlStringStreamer\\ParserInterface");
+        $node = "<node><a>lorem</a><b>ipsum</b></node>";
+
+        $parser = Mockery::mock("\\Prewk\\XmlStringStreamer\\ParserInterface");
+        $parser->shouldReceive("getNodeFrom")
+               ->with(Mockery::type("\\Prewk\\XmlStringStreamer\\StreamInterface"))
+               ->once()
+               ->andReturn($node);
+
+        $stream = Mockery::mock("\\Prewk\\XmlStringStreamer\\StreamInterface");
+
+        $streamer = new XmlStringStreamer($parser, $stream);
+        
+        $this->assertEquals($streamer->getNode(), $node);
     }
 }
