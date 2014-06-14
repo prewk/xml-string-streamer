@@ -14,7 +14,7 @@
 
     <testsuites>
         <testsuite name="XmlStringStreamer's unit tests">
-            <directory>./tests/unit/</directory>
+            <directory suffix="Test.php">./tests/*</directory>
         </testsuite>
     </testsuites>
 
