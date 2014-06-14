@@ -1,6 +1,9 @@
 <?php
 
-use Prewk\XmlStringStreamer;
+namespace Prewk;
+
+use \PHPUnit_Framework_TestCase;
+use \Mockery;
 
 class XmlStringStreamerTest extends PHPUnit_Framework_TestCase
 {
