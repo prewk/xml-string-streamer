@@ -18,6 +18,7 @@
         "php": ">=5.3.0"
     },
     "require-dev": {
-        "prewk/xml-faker": "0.0.2"
+        "prewk/xml-faker": "0.0.2",
+        "mockery/mockery": "dev-master"
     }
 }

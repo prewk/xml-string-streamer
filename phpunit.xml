@@ -13,8 +13,8 @@
         >
 
     <testsuites>
-        <testsuite name="XmlStringStreamer's test suite">
-            <directory>./tests/</directory>
+        <testsuite name="XmlStringStreamer's unit tests">
+            <directory suffix="Test.php">./tests/*</directory>
         </testsuite>
     </testsuites>
 
