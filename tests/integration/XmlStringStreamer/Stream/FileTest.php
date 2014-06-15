@@ -40,4 +40,22 @@ class FileTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($stream->getChunk(), $chunk2, "Second chunk received from the stream should be as expected");
         $this->assertEquals($stream->getChunk(), false, "Third chunk received from the stream should be false");
     }
+
+    public function test_chunk_callback()
+    {
+        $file = __dir__ . "/../../../xml/pubmed-example.xml";
+        $chunkSize = 100;
+
+        $callbackCount = 0;
+        $stream = new File($file, 100, function($buffer, $readBytes) use (&$callbackCount) {
+            $callbackCount++;
+        });
+
+        $chunkCount = 0;
+        while ($chunk = $stream->getChunk()) {
+            $chunkCount++;
+        }
+
+        $this->assertEquals($callbackCount, $chunkCount, "Chunk callback count should be the same as getChunk count");
+    }
 }
