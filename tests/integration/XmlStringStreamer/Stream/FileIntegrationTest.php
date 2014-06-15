@@ -5,7 +5,7 @@ namespace Prewk\XmlStringStreamer\Stream;
 use \PHPUnit_Framework_TestCase;
 use \Mockery;
 
-class FileTest extends PHPUnit_Framework_TestCase
+class FileIntegrationTest extends PHPUnit_Framework_TestCase
 {
     public function test_stream_a_file_by_path()
     {
