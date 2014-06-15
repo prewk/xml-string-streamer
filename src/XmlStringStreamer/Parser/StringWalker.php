@@ -59,7 +59,7 @@ class StringWalker implements ParserInterface
     public function __construct(array $options = array())
     {
         $this->options = array_merge(array(
-            "captureDepth" => 1,
+            "captureDepth" => 2,
             "expectGT" => false,
             "tags" => array(
                 array("<?", "?>", 0),
@@ -183,16 +183,11 @@ class StringWalker implements ParserInterface
     public function getNodeFrom(StreamInterface $stream)
     {
         // Iterate and append to $this->chunk
-
         while ($this->prepareChunk($stream)) {
             $this->firstRun = false;
             // Shave off elements
             while ($shaved = $this->shave()) {
                 list($element, $data) = $shaved;
-
-                if ($this->capture) {
-                    $this->shaved .= $data;
-                }
 
                 // Analyze element
                 list($opening, $closing, $depth) = $this->getEdges($element);
@@ -200,17 +195,32 @@ class StringWalker implements ParserInterface
                 // Update depth
                 $this->depth += $depth;
 
-                if ($this->depth === $this->options["captureDepth"]) {
-                    if (!$this->capture) {
-                        // Desired depth encountered - Start capturing
-                        $this->capture = true;
-                    } else {
-                        // Whole node is captured, flush it out
-                        $flush = $this->shaved;
-                        $this->shaved = null;
+                $flush = false;
 
-                        return $flush;
-                    }
+                // Capture or don't?
+                if ($this->depth === $this->options["captureDepth"] && $depth > 0) {
+                    // Yes, we've just entered capture depth, start capturing
+                    $this->capture = true;
+                } else if ($this->depth === $this->options["captureDepth"] - 1 && $depth < 0) {
+                    // No, we've just exited capture depth, stop capturing and prepare for flush      
+                    $flush = true;
+                    $this->capture = false;
+                    
+                    // ..but include this last node
+                    $this->shaved .= $data;
+                }
+
+                // Capture the last retrieved node
+                if ($this->capture) {
+                    $this->shaved .= $data;
+                }
+
+                if ($flush) {
+                    // Flush the whole node and start over on the next
+                    $flush = $this->shaved;
+                    $this->shaved = null;
+
+                    return $flush;
                 }
             }
         }

@@ -15,7 +15,7 @@ Add to `composer.json`:
 ````json
 {
     "require": {
-        "prewk/xml-string-streamer": "~0.5.5"
+        "prewk/xml-string-streamer": "~0.6.0"
     }
 }
 
@@ -129,7 +129,7 @@ use Prewk\XmlStringStreamer\Parser;
 use Prewk\XmlStringStreamer\Stream;
 
 $options = array(
-    "captureDepth" => 2
+    "captureDepth" => 3
 );
 
 $parser = new Parser\StringWalker($streamProvider, $options);
@@ -139,7 +139,7 @@ $parser = new Parser\StringWalker($streamProvider, $options);
 
 | Option | Default | Description |
 | ------ | ------- | ----------- |
-| (int) captureDepth | `1` | Depth we start collecting nodes at |
+| (int) captureDepth | `2` | Depth we start collecting nodes at |
 | (array) tags | See example | Supported tags |
 | (bool) expectGT | `false` | Whether to support `>` in XML comments/CDATA or not |
 | (array) tagsWithAllowedGT | See example | If _expectGT_ is `true`, this option lists the tags with allowed `>` characters in them |
@@ -148,7 +148,7 @@ $parser = new Parser\StringWalker($streamProvider, $options);
 
 #### captureDepth
 
-Default behavior with a capture depth of `1`:
+Default behavior with a capture depth of `2`:
 
 ````xml
 <?xml encoding="utf-8"?>
@@ -179,17 +179,18 @@ But say your XML looks like this:
     </a-sub-node>
 </root-node>
 ````
-Then you'll need to set the capture depth to `2` to capture the `<capture-me-instead>` nodes.
+Then you'll need to set the capture depth to `3` to capture the `<capture-me-instead>` nodes.
 
 Node depth visualized:
 
 ````xml
-<0>
-    <1>
-        <2>
-        </2>
-    </1>
-</0>
+<?xml?> <!-- Depth 0 because it's at the root and doesn't affect depth -->
+<root-node> <!-- Depth 1 because it's at the root and increases depth -->
+    <a-sub-node> <!-- Depth 2 because it has one ancestor and increases depth -->
+        <capture-me-instead> <!-- Depth 3 because it has two ancestors and increases depth -->
+        </capture-me-instead>
+    </a-sub-node>
+</root-node>
 ````
 
 #### tags

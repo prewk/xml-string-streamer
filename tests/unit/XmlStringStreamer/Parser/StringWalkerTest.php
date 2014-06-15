@@ -70,12 +70,12 @@ eot;
         $this->assertEquals(
             trim($node2),
             trim($parser->getNodeFrom($stream)),
-            "Node 2 should be obtained on the first getNodeFrom"
+            "Node 2 should be obtained on the second getNodeFrom"
         );
         $this->assertEquals(
             trim($node3),
             trim($parser->getNodeFrom($stream)),
-            "Node 3 should be obtained on the first getNodeFrom"
+            "Node 3 should be obtained on the third getNodeFrom"
         );
         $this->assertFalse(
             false,
@@ -120,7 +120,7 @@ eot;
         $stream = $this->getStreamMock($xml, 50);
         
         $parser = new StringWalker(array(
-            "captureDepth" => 2,
+            "captureDepth" => 3,
         ));
         
         $this->assertEquals(
@@ -131,12 +131,12 @@ eot;
         $this->assertEquals(
             trim($node2),
             trim($parser->getNodeFrom($stream)),
-            "Node 2 should be obtained on the first getNodeFrom"
+            "Node 2 should be obtained on the second getNodeFrom"
         );
         $this->assertEquals(
             trim($node3),
             trim($parser->getNodeFrom($stream)),
-            "Node 3 should be obtained on the first getNodeFrom"
+            "Node 3 should be obtained on the third getNodeFrom"
         );
         $this->assertFalse(
             false,
@@ -191,12 +191,12 @@ eot;
         $this->assertEquals(
             trim($node2),
             trim($parser->getNodeFrom($stream)),
-            "Node 2 should be obtained on the first getNodeFrom"
+            "Node 2 should be obtained on the second getNodeFrom"
         );
         $this->assertEquals(
             trim($node3),
             trim($parser->getNodeFrom($stream)),
-            "Node 3 should be obtained on the first getNodeFrom"
+            "Node 3 should be obtained on the third getNodeFrom"
         );
         $this->assertFalse(
             false,
@@ -258,19 +258,18 @@ eot;
         $this->assertEquals(
             trim($node2),
             trim($parser->getNodeFrom($stream)),
-            "Node 2 should be obtained on the first getNodeFrom"
+            "Node 2 should be obtained on the second getNodeFrom"
         );
         $this->assertEquals(
             trim($node3),
             trim($parser->getNodeFrom($stream)),
-            "Node 3 should be obtained on the first getNodeFrom"
+            "Node 3 should be obtained on the third getNodeFrom"
         );
         $this->assertFalse(
             false,
             "When no nodes are left, false should be returned"
         );
     }
-
 
     public function test_self_closing_elements()
     {
@@ -316,12 +315,141 @@ eot;
         $this->assertEquals(
             trim($node2),
             trim($parser->getNodeFrom($stream)),
-            "Node 2 should be obtained on the first getNodeFrom"
+            "Node 2 should be obtained on the second getNodeFrom"
         );
         $this->assertEquals(
             trim($node3),
             trim($parser->getNodeFrom($stream)),
-            "Node 3 should be obtained on the first getNodeFrom"
+            "Node 3 should be obtained on the third getNodeFrom"
+        );
+        $this->assertFalse(
+            false,
+            "When no nodes are left, false should be returned"
+        );
+    }
+
+    public function test_different_capture_node_types()
+    {
+        $node1 = <<<eot
+            <child-a>
+                <foo baz="attribute" />
+                <bar/>
+                <index>1</index>
+            </child-a>
+eot;
+        $node2 = <<<eot
+            <child-b>
+                <foo baz="attribute" />
+                <bar/>
+                <index>2</index>
+            </child-b>
+eot;
+        $node3 = <<<eot
+            <child-c>
+                <foo baz="attribute" />
+                <bar/>
+                <index>3</index>
+            </child-c>
+eot;
+        $xml = <<<eot
+            <?xml version="1.0"?>
+            <root>
+                $node1
+                $node2
+                $node3
+            </root>
+eot;
+    
+        $stream = $this->getStreamMock($xml, 50);
+        
+        $parser = new StringWalker();
+        
+        $this->assertEquals(
+            trim($node1),
+            trim($parser->getNodeFrom($stream)),
+            "Node 1 should be obtained on the first getNodeFrom"
+        );
+        $this->assertEquals(
+            trim($node2),
+            trim($parser->getNodeFrom($stream)),
+            "Node 2 should be obtained on the second getNodeFrom"
+        );
+        $this->assertEquals(
+            trim($node3),
+            trim($parser->getNodeFrom($stream)),
+            "Node 3 should be obtained on the third getNodeFrom"
+        );
+        $this->assertFalse(
+            false,
+            "When no nodes are left, false should be returned"
+        );
+    }
+
+    public function test_multiple_roots()
+    {
+        $node1 = <<<eot
+            <child-a>
+                <foo baz="attribute" />
+                <bar/>
+                <index>1</index>
+            </child-a>
+eot;
+        $node2 = <<<eot
+            <child-a>
+                <foo baz="attribute" />
+                <bar/>
+                <index>2</index>
+            </child-a>
+eot;
+        $node3 = <<<eot
+            <child-b>
+                <foo baz="attribute" />
+                <bar/>
+                <index>3</index>
+            </child-b>
+eot;
+        $node4 = <<<eot
+            <child-b>
+                <foo baz="attribute" />
+                <bar/>
+                <index>3</index>
+            </child-b>
+eot;
+        $xml = <<<eot
+            <?xml version="1.0"?>
+            <root-a>
+                $node1
+                $node2
+            </root-a>
+            <root-b>
+                $node3
+                $node4
+            </root-b>
+eot;
+        
+        $stream = $this->getStreamMock($xml, 50);
+        
+        $parser = new StringWalker();
+        
+        $this->assertEquals(
+            trim($node1),
+            trim($parser->getNodeFrom($stream)),
+            "Node 1 should be obtained on the first getNodeFrom from root-a"
+        );
+        $this->assertEquals(
+            trim($node2),
+            trim($parser->getNodeFrom($stream)),
+            "Node 2 should be obtained on the second getNodeFrom from root-a"
+        );
+        $this->assertEquals(
+            trim($node3),
+            trim($parser->getNodeFrom($stream)),
+            "Node 3 should be obtained on the third getNodeFrom from root-b"
+        );
+        $this->assertEquals(
+            trim($node4),
+            trim($parser->getNodeFrom($stream)),
+            "Node 4 should be obtained on the third getNodeFrom from root-b"
         );
         $this->assertFalse(
             false,

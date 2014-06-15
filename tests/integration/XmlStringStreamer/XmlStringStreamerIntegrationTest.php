@@ -29,7 +29,7 @@ class XmlStringStreamerIntegrationTest extends PHPUnit_Framework_TestCase
         $file = __dir__ . "/../../xml/orphanet-xml-example.xml";
 
         $streamer = XmlStringStreamer::createStringWalkerParser($file, array(
-            "captureDepth" => 2,
+            "captureDepth" => 3,
         ));
 
         $expectedOrphaNumbers = array("166024", "166032", "58");
@@ -62,7 +62,7 @@ class XmlStringStreamerIntegrationTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedPMIDs, $foundPMIDs, "The PMID nodes should be as expected");
     }
 
-    public function test_createUniqueNodeParser_convenience_method_with_orphanet_xml_and_custom_captureDepth()
+    public function test_createUniqueNodeParser_convenience_method_with_orphanet_xml()
     {
         $file = __dir__ . "/../../xml/orphanet-xml-example.xml";
 
