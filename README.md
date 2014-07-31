@@ -257,6 +257,7 @@ $parser = new Parser\UniqueNode($streamProvider, $options);
 | Option | Description |
 | ------ | ----------- |
 | (string) uniqueNode | Required option: Specify the node name to capture |
+| (bool) checkShortClosing | Whether to check short closing tag or not |
 
 ### Examples
 
@@ -277,8 +278,20 @@ Say you have an XML file like this:
     </stuff>
 </root-node>
 ````
-
 You want to capture the stuff nodes, therefore set _uniqueNode_ to `"stuff"`.
+
+If you have an XML file with short closing tag like this:
+````xml
+<?xml encoding="utf-8"?>
+<root-node>
+    <stuff foo="bar" />
+    <stuff foo="baz">
+        ...
+    </stuff>
+    <stuff foo="123" />
+</root-node>
+````
+You want to capture the stuff nodes, therefore set _uniqueNode_ to `"stuff"` and _checkShortClosing_ to TRUE.
 
 But if your XML file look like this:
 ````xml
