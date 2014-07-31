@@ -4,6 +4,7 @@
  * 
  * @package xml-string-streamer
  * @author  Oskar Thornblad <oskar.thornblad@gmail.com>
+ * @author  Roman Voloboev <animir@ya.ru>
  */
 
 namespace Prewk\XmlStringStreamer\Parser;
@@ -48,6 +49,13 @@ class UniqueNode implements ParserInterface
     private $nextAction = 0;
 
     /**
+     * Indicates short closing tag
+     * @var bool
+     */
+    
+    private $shortClosedTagNow = false;
+    
+    /**
      * Parser contructor
      * @param array $options An options array
      */
@@ -78,6 +86,27 @@ class UniqueNode implements ParserInterface
 
         return $startPositionInBlob;
     }
+    
+    /**
+     * Search short closing tag in $workingBlob before 
+     * 
+     * @param string $workingBlob
+     * @param int $len
+     * @return bool|int Either returns the char position of the short closing tag or false
+     */
+    private function checkShortClosingTag($workingBlob, $len) {
+        $resultEndPositionInBlob = false;
+        while ($len = strpos($workingBlob, '/>', $len + 1)) {
+            $subBlob = substr($workingBlob, $this->startPos, $len);
+            $cntOpen = substr_count($subBlob, '<');
+            $cntClose = substr_count($subBlob, '>');
+            if ($cntOpen === $cntClose && $cntOpen > 0) {
+                $resultEndPositionInBlob = $len + strlen('/>');
+                break; // end while. so $endPositionInBlob correct now
+            }
+        }
+        return $resultEndPositionInBlob;
+    }
 
     /**
      * Search the blob for our unique node's closing tag
@@ -86,9 +115,25 @@ class UniqueNode implements ParserInterface
     protected function getClosingTagPos()
     {
         $endPositionInBlob = strpos($this->workingBlob, "</" . $this->options["uniqueNode"] . ">");
-
         if ($endPositionInBlob === false) {
-            $this->hasSearchedUntilPos = strlen($this->workingBlob) - 1;
+
+            if (isset($this->options['checkShortClosing']) && $this->options['checkShortClosing'] === true) {
+                $endPositionInBlob = $this->checkShortClosingTag($this->workingBlob, $this->startPos);
+            }
+
+            if ($endPositionInBlob === false) {
+                $this->hasSearchedUntilPos = strlen($this->workingBlob) - 1;
+            } else {
+                $this->shortClosedTagNow = true;
+            }
+        } else {
+            if (isset($this->options['checkShortClosing']) && $this->options['checkShortClosing'] === true) {
+                $tmpEndPositionInBlob = $this->checkShortClosingTag(substr($this->workingBlob, 0, $endPositionInBlob), $this->startPos);
+                if ($tmpEndPositionInBlob !== false) {
+                    $this->shortClosedTagNow = true;
+                    $endPositionInBlob = $tmpEndPositionInBlob;
+                }
+            }
         }
 
         return $endPositionInBlob;
@@ -108,10 +153,12 @@ class UniqueNode implements ParserInterface
      * @param  int $endPositionInBlob Position of the closing tag
      */
     protected function flush($endPositionInBlob) {
-        $realEndPosition = $endPositionInBlob + strlen("</" . $this->options["uniqueNode"] . ">");
+        $endTagLen = $this->shortClosedTagNow ? 0 : strlen("</" . $this->options["uniqueNode"] . ">");
+        $realEndPosition = $endPositionInBlob + $endTagLen;
         $this->flushed = substr($this->workingBlob, $this->startPos, $realEndPosition - $this->startPos);
         $this->workingBlob = substr($this->workingBlob, $realEndPosition);
         $this->hasSearchedUntilPos = 0;
+        $this->shortClosedTagNow = false;
     }
 
     /**
