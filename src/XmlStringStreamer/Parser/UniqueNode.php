@@ -97,10 +97,10 @@ class UniqueNode implements ParserInterface
     private function checkShortClosingTag($workingBlob, $len) {
         $resultEndPositionInBlob = false;
         while ($len = strpos($workingBlob, '/>', $len + 1)) {
-            $subBlob = substr($workingBlob, $this->startPos, $len);
+            $subBlob = substr($workingBlob, $this->startPos, $len + strlen('/>') - $this->startPos );
             $cntOpen = substr_count($subBlob, '<');
-            $cntClose = substr_count($subBlob, '>');
-            if ($cntOpen === $cntClose && $cntOpen > 0) {
+            $cntClose = substr_count($subBlob, '/>');
+            if ($cntOpen === $cntClose && $cntOpen === 1) {
                 $resultEndPositionInBlob = $len + strlen('/>');
                 break; // end while. so $endPositionInBlob correct now
             }
