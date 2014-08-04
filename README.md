@@ -15,7 +15,7 @@ Add to `composer.json`:
 ````json
 {
     "require": {
-        "prewk/xml-string-streamer": "~0.6.2"
+        "prewk/xml-string-streamer": "~0.6.3"
     }
 }
 
