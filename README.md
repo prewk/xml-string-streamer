@@ -280,7 +280,7 @@ Say you have an XML file like this:
 ````
 You want to capture the stuff nodes, therefore set _uniqueNode_ to `"stuff"`.
 
-If you have an XML file with short closing tag like this:
+If you have an XML file with short closing tags like this:
 ````xml
 <?xml encoding="utf-8"?>
 <root-node>
@@ -291,7 +291,7 @@ If you have an XML file with short closing tag like this:
     <stuff foo="123" />
 </root-node>
 ````
-You want to capture the stuff nodes, therefore set _uniqueNode_ to `"stuff"` and _checkShortClosing_ to TRUE.
+You want to capture the stuff nodes, therefore set _uniqueNode_ to `"stuff"` and _checkShortClosing_ to `true`.
 
 But if your XML file look like this:
 ````xml
