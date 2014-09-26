@@ -48,7 +48,7 @@ class XmlStringStreamer
      */
     public static function createStringWalkerParser($file, $options = array())
     {
-        $stream = new Stream\File($file, 1024);
+        $stream = new Stream\File($file, 16384);
         $parser = new Parser\StringWalker($options);
         return new XmlStringStreamer($parser, $stream);
     }
@@ -61,7 +61,7 @@ class XmlStringStreamer
      */
     public static function createUniqueNodeParser($file, $options = array())
     {
-        $stream = new Stream\File($file, 1024);
+        $stream = new Stream\File($file, 16384);
         $parser = new Parser\UniqueNode($options);
         return new XmlStringStreamer($parser, $stream);
     }
