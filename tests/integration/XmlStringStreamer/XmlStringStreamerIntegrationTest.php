@@ -104,4 +104,26 @@ class XmlStringStreamerIntegrationTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($expectedNodes, $foundNodes, "The found nodes should equal the expected nodes");
     }
+
+    public function test_stringWalkerParser_with_file_shorter_than_buffer()
+    {
+        $file = __dir__ . "/../../xml/short.xml";
+
+        $stream = new XmlStringStreamer\Stream\File($file, 1024);
+        $parser = new XmlStringStreamer\Parser\StringWalker();
+        $streamer = new XmlStringStreamer($parser, $stream);
+
+        $expectedNodes = array(
+            "foo",
+            "bar",
+        );
+
+        $foundNodes = array();
+        while ($node = $streamer->getNode()) {
+            $xmlNode = simplexml_load_string($node);
+            $foundNodes[] = (string)$xmlNode->node;
+        }
+
+        $this->assertEquals($expectedNodes, $foundNodes, "The found nodes should equal the expected nodes");
+    }
 }
