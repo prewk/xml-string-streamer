@@ -81,7 +81,7 @@ class XmlStringStreamerIntegrationTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedOrphaNumbers, $foundOrphaNumbers, "The OrphaNumber nodes should be as expected");
     }
 
-    public function test_uniqueNodeParser_with_file_shorter_than_buffer()
+    public function test_UniqueNode_parser_with_file_shorter_than_buffer()
     {
         $file = __dir__ . "/../../xml/short.xml";
 
@@ -105,7 +105,7 @@ class XmlStringStreamerIntegrationTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedNodes, $foundNodes, "The found nodes should equal the expected nodes");
     }
 
-    public function test_stringWalkerParser_with_file_shorter_than_buffer()
+    public function test_StringWalker_parser_with_file_shorter_than_buffer()
     {
         $file = __dir__ . "/../../xml/short.xml";
 
