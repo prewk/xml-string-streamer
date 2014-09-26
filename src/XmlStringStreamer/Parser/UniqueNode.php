@@ -56,8 +56,9 @@ class UniqueNode implements ParserInterface
     private $shortClosedTagNow = false;
 
     /**
-     * Parser contructor
+     * Parser constructor
      * @param array $options An options array
+     * @throws \Exception if the required option uniqueNode isn't set
      */
     public function __construct(array $options = array())
     {
@@ -177,6 +178,11 @@ class UniqueNode implements ParserInterface
 
         if ($chunk === false) {
             // EOF
+            if ($this->hasSearchedUntilPos === -1) {
+                // EOF, but we haven't even started searching, special case that probably means we're dealing with a file of less size than the stream buffer
+                // Therefore, keep looping
+                return true;
+            }
             return false;
         } else {
             // New chunk fetched
