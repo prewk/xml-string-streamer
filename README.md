@@ -10,18 +10,7 @@ Installation
 
 ### With composer
 
-Add to `composer.json`:
-
-````json
-{
-    "require": {
-        "prewk/xml-string-streamer": "dev-master"
-    }
-}
-
-````
-
-Run `composer install`.
+Run `composer require prewk/xml-string-streamer-guzzle` to install this package.
 
 Usage
 -----
