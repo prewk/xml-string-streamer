@@ -10,7 +10,7 @@ Installation
 
 ### With composer
 
-Run `composer require prewk/xml-string-streamer-guzzle` to install this package.
+Run `composer require prewk/xml-string-streamer` to install this package.
 
 Usage
 -----
