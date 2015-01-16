@@ -52,7 +52,7 @@ use Prewk\XmlStringStreamer\Parser;
 $stream = new Stream\File("gigantic.xml", 1024);
 
 // Construct the default parser (StringWalker)
-$parser = new Parser\StringWalker()
+$parser = new Parser\StringWalker();
 
 // Create the streamer
 $streamer = new XmlStringStreamer($parser, $stream);
