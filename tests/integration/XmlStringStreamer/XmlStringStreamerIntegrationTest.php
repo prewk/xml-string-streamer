@@ -2,8 +2,10 @@
 
 namespace Prewk;
 
-use \PHPUnit_Framework_TestCase;
-use \Mockery;
+use PHPUnit_Framework_TestCase;
+use Mockery;
+use Prewk\XmlStringStreamer\Parser\StringWalker;
+use Prewk\XmlStringStreamer\Stream\File;
 
 class XmlStringStreamerIntegrationTest extends PHPUnit_Framework_TestCase
 {
@@ -22,6 +24,32 @@ class XmlStringStreamerIntegrationTest extends PHPUnit_Framework_TestCase
         }
         
         $this->assertEquals($expectedPMIDs, $foundPMIDs, "The PMID nodes should be as expected");
+    }
+
+    public function test_createStringWalkerParser_convenience_method_with_pubmed_xml_and_container_extraction()
+    {
+        $file = __dir__ . "/../../xml/pubmed-example.xml";
+
+        $stream = new File($file, 16384);
+        $parser = new StringWalker(array(
+            "extractContainer" => true,
+        ));
+        $streamer = new XmlStringStreamer($parser, $stream);
+
+        $expectedPMIDs = array("24531174", "24529294", "24449586");
+        $foundPMIDs = array();
+
+        while ($node = $streamer->getNode()) {
+            $xmlNode = simplexml_load_string($node);
+            $foundPMIDs[] = (string)$xmlNode->MedlineCitation->PMID;
+        }
+
+        $this->assertEquals($expectedPMIDs, $foundPMIDs, "The PMID nodes should be as expected");
+
+        $containerXml = simplexml_load_string($parser->getExtractedContainer());
+        $this->assertEquals("PubmedArticleSet", $containerXml->getName(), "Root node should be as expected");
+        $this->assertEquals("bar", $containerXml->attributes()->foo, "Attributes should be extracted correctly");
+        $this->assertEquals("qux", $containerXml->attributes()->baz, "Attributes should be extracted correctly");
     }
 
     public function test_createStringWalkerParser_convenience_method_with_orphanet_xml_and_custom_captureDepth()

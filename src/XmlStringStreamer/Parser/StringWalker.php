@@ -8,6 +8,7 @@
 
 namespace Prewk\XmlStringStreamer\Parser;
 
+use Exception;
 use Prewk\XmlStringStreamer\ParserInterface;
 use Prewk\XmlStringStreamer\StreamInterface;
 
@@ -53,6 +54,12 @@ class StringWalker implements ParserInterface
     protected $capture = false;
 
     /**
+     * If extractContainer is true, this will grow with the XML captured before and after the specified capture depth
+     * @var string
+     */
+    protected $containerXml = "";
+
+    /**
      * Parser contructor
      * @param array $options An options array
      */
@@ -74,6 +81,7 @@ class StringWalker implements ParserInterface
                 array("<!--", "-->"),
                 array("<![CDATA[", "]]>"),
             ),
+            "extractContainer" => false,
         ), $options);
     }
 
@@ -87,8 +95,8 @@ class StringWalker implements ParserInterface
 
         if (isset($matches[0], $matches[0][0], $matches[0][1])) {
             list($captured, $offset) = $matches[0];
-            
-            if ($this->options["expectGT"]) {            
+
+            if ($this->options["expectGT"]) {
                 // Some elements support > inside
                 foreach ($this->options["tagsWithAllowedGT"] as $tag) {
                     list($opening, $closing) = $tag;
@@ -176,6 +184,20 @@ class StringWalker implements ParserInterface
     }
 
     /**
+     * Get the extracted container XML, if called before the whole stream is parsed, the XML returned will most likely be invalid due to missing closing tags
+     * @return string XML string
+     * @throws Exception if the extractContainer option isn't true
+     */
+    public function getExtractedContainer()
+    {
+        if (!$this->options["extractContainer"]) {
+            throw new Exception("This method requires the 'extractContainer' option to be true");
+        }
+
+        return $this->containerXml;
+    }
+
+    /**
      * Tries to retrieve the next node or returns false
      * @param  StreamInterface $stream The stream to use
      * @return string|bool             The next xml node or false if one could not be retrieved
@@ -208,6 +230,9 @@ class StringWalker implements ParserInterface
                     
                     // ..but include this last node
                     $this->shaved .= $data;
+                } else if ($this->options["extractContainer"] && $this->depth < $this->options["captureDepth"]) {
+                    // We're outside of our capture scope, save to the special buffer if extractContainer is true
+                    $this->containerXml .= $element;
                 }
 
                 // Capture the last retrieved node
