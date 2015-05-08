@@ -42,6 +42,12 @@ class StringWalker implements ParserInterface
     protected $chunk;
 
     /**
+     * Last XML node in the making, used for anti-freeze detection
+     * @var null|string
+     */
+    protected $lastChunk;
+
+    /**
      * XML node in the making
      * @var null|string
      */
@@ -175,7 +181,10 @@ class StringWalker implements ParserInterface
 
             return true;
         } else {
-            if (trim($this->chunk) !== "") {
+            if (trim($this->chunk) !== "" && $this->chunk !== $this->lastChunk) {
+                // Update anti-freeze protection chunk
+                $this->lastChunk = $this->chunk;
+                // Continue
                 return true;
             }
         }

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<application>
+ <block name="xData" title="Данные">
+  <table>
+   <row>
+    <field type="value" value="000000100182"/>
+    <field type="value" value="000180"/>
+    <field type="value" value="B   000 750 M9"/>
+    <field type="value" value="ЖИДКОСТЬ ТОРМОЗНАЯ 60Л"/>
+    <field type="value" value="1.000 "/>
+    <field type="value" value="0.000 "/>
+    <field type="value" value="Л"/>
+    <field type="value" value=""/>
+    <field type="value" value="R"/>
+    <field type="value" value="566.38 "/>
+    <field type="value" value="RUR"/>
+   </row>
+   <row>
+    <field type="value" value="000000100182"/>
+    <field type="value" value="000190"/>
+    <field type="value" value="B   000 750 M3"/>
+    <field type="value" value="ЖИДКОСТЬ ТОРМ. VAG - 1 ЛИТР"/>
+    <field type="value" value="1.000 "/>
+    <field type="value" value="8.000 "/>
+    <field type="value" value="ШТ"/>
+    <field type="value" value=""/>
+    <field type="value" value="R"/>
+    <field type="value" value="996.05 "/>
+    <field type="value" value="RUR"/>
+   </row>
+   <row>
+    <field type="value" value="000000100182"/>
+    <field type="value" value="000200"/>
+    <field type="value" value="7H1 955 426"/>
+    <field type="value" value="ЩЁТКА СТКЛООЧИСТИТЕЛЯ ПЕРЕДНЯЯ"/>
+    <field type="value" value="1.000 "/>
+    <field type="

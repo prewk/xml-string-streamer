@@ -10,6 +10,48 @@ use Prewk\XmlStringStreamer\Stream\File;
 
 class XmlStringStreamerIntegrationTest extends PHPUnit_Framework_TestCase
 {
+    public function test_incomplete_file_with_StringWalker()
+    {
+        $file = __dir__ . "/../../xml/incomplete.xml";
+
+        $stream = new File($file, 16384);
+        $parser = new StringWalker(array(
+            "captureDepth" => 4,
+        ));
+        $streamer = new XmlStringStreamer($parser, $stream);
+
+        $expectedValues = array("000000100182", "000000100182");
+        $foundValues = array();
+
+        while ($node = $streamer->getNode()) {
+            $xmlNode = simplexml_load_string($node);
+            $foundValues[] = (string)$xmlNode->field[0]["value"];
+        }
+
+        $this->assertEquals($expectedValues, $foundValues, "It should only catch two values and abort");
+    }
+
+    public function test_incomplete_file_with_UniqueNode()
+    {
+        $file = __dir__ . "/../../xml/incomplete.xml";
+
+        $stream = new File($file, 16384);
+        $parser = new UniqueNode(array(
+            "uniqueNode" => "row",
+        ));
+        $streamer = new XmlStringStreamer($parser, $stream);
+
+        $expectedValues = array("000000100182", "000000100182");
+        $foundValues = array();
+
+        while ($node = $streamer->getNode()) {
+            $xmlNode = simplexml_load_string($node);
+            $foundValues[] = (string)$xmlNode->field[0]["value"];
+        }
+
+        $this->assertEquals($expectedValues, $foundValues, "It should only catch two values and abort");
+    }
+
     public function test_createStringWalkerParser_convenience_method_with_pubmed_xml()
     {
         $file = __dir__ . "/../../xml/pubmed-example.xml";
