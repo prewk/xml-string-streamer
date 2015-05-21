@@ -10,18 +10,7 @@ Installation
 
 ### With composer
 
-Add to `composer.json`:
-
-````json
-{
-    "require": {
-        "prewk/xml-string-streamer": "dev-master"
-    }
-}
-
-````
-
-Run `composer install`.
+Run `composer require prewk/xml-string-streamer` to install this package.
 
 Usage
 -----
@@ -63,7 +52,7 @@ use Prewk\XmlStringStreamer\Parser;
 $stream = new Stream\File("gigantic.xml", 1024);
 
 // Construct the default parser (StringWalker)
-$parser = new Parser\StringWalker()
+$parser = new Parser\StringWalker();
 
 // Create the streamer
 $streamer = new XmlStringStreamer($parser, $stream);
@@ -309,3 +298,76 @@ But if your XML file look like this:
 
 ..you won't be able to use the UniqueNode parser, because `<stuff>` exists inside of another `<stuff>` node.
 
+Advanced Usage
+------------------------
+
+### Progress bar
+
+You can track progress using a closure as the third argument when constructing the stream class. Example with the `File` stream using the `StringWalker` parser:
+
+````php
+use Prewk\XmlStringStreamer;
+use Prewk\XmlStringStreamer\Stream\File;
+use Prewk\XmlStringStreamer\Parser\StringWalker;
+
+$file = "path/to/file.xml";
+
+// Save the total file size
+$totalSize = filesize($file);
+
+// Construct the file stream
+$stream = new File($file, 16384, function($chunk, $readBytes) use ($totalSize) {
+    // This closure will be called every time the streamer requests a new chunk of data from the XML file
+    echo "Progress: $readBytes / $totalSize\n";
+});
+// Construct the parser
+$parser = new StringWalker;
+
+// Construct the streamer
+$streamer = new XmlStringStreamer($parser, $stream);
+
+// Start parsing
+while ($node = $streamer->getNode()) {
+    // ....
+}
+````
+
+_You could of course do something more intelligent than spamming with `echo`._
+
+### Accessing the root element (version 0.7.0+)
+
+Setting the parser option `extractContainer` tells the parser to gather everything before and after your intended child element capture. The results are available via the parser's `getExtractedContainer()` method.
+
+_Note:_ `getExtractedContainer()` will return different things depending on if you've streamed the whole file or not. If you need the containing XML data prematurely you can get it inside of the while loop, but it will just be the opening elements and therefore considered invalid XML by parsers such as SimpleXML.
+
+````php
+use Prewk\XmlStringStreamer;
+use Prewk\XmlStringStreamer\Stream\File;
+use Prewk\XmlStringStreamer\Parser\StringWalker;
+
+$file = "path/to/file.xml";
+
+// Construct the file stream
+$stream = new File($file, 16384);
+// Construct the parser
+$parser = new StringWalker(array(
+    "extractContainer" => true, // Required option
+));
+
+// Construct the streamer
+$streamer = new XmlStringStreamer($parser, $stream);
+
+// Start parsing
+while ($node = $streamer->getNode()) {
+    // ....
+}
+
+// Get the containing XML
+$containingXml = $parser->getExtractedContainer();
+
+$xmlObj = simplexml_load_string($containingXml);
+$rootElementName = $xmlObj->getName();
+$rootElementFooAttribute = $xmlObj->attributes()->foo;
+````
+
+_This method should be considered experimental, and may extract weird stuff in edge cases_

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE PubmedArticleSet PUBLIC "-//NLM//DTD PubMedArticle, 1st January 2014//EN" "http://www.ncbi.nlm.nih.gov/corehtml/query/DTD/pubmed_140101.dtd">
-<PubmedArticleSet>
+<PubmedArticleSet foo="bar" baz="qux">
 
 <PubmedArticle>
     <MedlineCitation Owner="NLM" Status="MEDLINE">

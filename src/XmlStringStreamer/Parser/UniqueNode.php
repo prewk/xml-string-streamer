@@ -56,13 +56,27 @@ class UniqueNode implements ParserInterface
     private $shortClosedTagNow = false;
 
     /**
+     * If extractContainer is true, this will grow with the XML captured before and after the specified capture depth
+     * @var string
+     */
+    protected $containerXml = "";
+
+    /**
+     * Whether we're found our first capture target or not
+     * @var bool
+     */
+    protected $preCapture = true;
+
+    /**
      * Parser constructor
      * @param array $options An options array
      * @throws \Exception if the required option uniqueNode isn't set
      */
     public function __construct(array $options = array())
     {
-        $this->options = array_merge(array(), $options);
+        $this->options = array_merge(array(
+            "extractContainer" => false,
+        ), $options);
 
         if (!isset($this->options["uniqueNode"])) {
             throw new \Exception("Required option 'uniqueNode' not set");
@@ -206,6 +220,12 @@ class UniqueNode implements ParserInterface
 
                 if ($positionInBlob !== false) {
                     // We found it, start salvaging
+                    if ($this->options["extractContainer"] && $this->preCapture) {
+                        $this->containerXml .= substr($this->workingBlob, 0, $positionInBlob);
+                        $this->preCapture = false;
+                    }
+
+
                     $this->startSalvaging($positionInBlob);
 
                     // The next course of action will be to find a closing tag
@@ -229,5 +249,25 @@ class UniqueNode implements ParserInterface
                 }
             }
         }
+
+        if ($this->options["extractContainer"]) {
+            $this->containerXml .= $this->workingBlob;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get the extracted container XML, if called before the whole stream is parsed, the XML returned can be invalid due to missing closing tags
+     * @return string XML string
+     * @throws Exception if the extractContainer option isn't true
+     */
+    public function getExtractedContainer()
+    {
+        if (!$this->options["extractContainer"]) {
+            throw new Exception("This method requires the 'extractContainer' option to be true");
+        }
+
+        return $this->containerXml;
     }
 }

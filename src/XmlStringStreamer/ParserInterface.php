@@ -25,4 +25,10 @@ interface ParserInterface
      * @return string|bool             The next xml node or false if one could not be retrieved
      */
     public function getNodeFrom(StreamInterface $stream);
+
+    /**
+     * Get the extracted container XML, if called before the whole stream is parsed, the XML returned can be invalid due to missing closing tags
+     * @return string XML string
+     */
+    public function getExtractedContainer();
 }
