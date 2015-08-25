@@ -97,7 +97,7 @@ class StringWalker implements ParserInterface
      */
     protected function shave()
     {
-        preg_match("/<[^>]+>/", $this->chunk, $matches, PREG_OFFSET_CAPTURE);
+        preg_match("/<[^>\n]+>/", $this->chunk, $matches, PREG_OFFSET_CAPTURE);
 
         if (isset($matches[0], $matches[0][0], $matches[0][1])) {
             list($captured, $offset) = $matches[0];
