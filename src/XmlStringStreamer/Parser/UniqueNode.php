@@ -9,6 +9,7 @@
 
 namespace Prewk\XmlStringStreamer\Parser;
 
+use Exception;
 use Prewk\XmlStringStreamer\ParserInterface;
 use Prewk\XmlStringStreamer\StreamInterface;
 
