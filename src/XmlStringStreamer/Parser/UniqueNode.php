@@ -71,7 +71,7 @@ class UniqueNode implements ParserInterface
     /**
      * Parser constructor
      * @param array $options An options array
-     * @throws \Exception if the required option uniqueNode isn't set
+     * @throws Exception if the required option uniqueNode isn't set
      */
     public function __construct(array $options = array())
     {
@@ -80,7 +80,7 @@ class UniqueNode implements ParserInterface
         ), $options);
 
         if (!isset($this->options["uniqueNode"])) {
-            throw new \Exception("Required option 'uniqueNode' not set");
+            throw new Exception("Required option 'uniqueNode' not set");
         }
     }
 
