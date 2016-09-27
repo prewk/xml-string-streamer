@@ -83,7 +83,49 @@ eot;
             "When no nodes are left, false should be returned"
         );
     }
+
+    public function test_uniqueNode_memory_leaks()
+    {
+        $node = <<<eot
+            <child>
+                <foo baz="attribute">Lorem</foo>
+                <bar>Ipsum</bar>
+                <index>1</index>
+            </child>
+eot;
+        $content = "";
+
+        for ($i = 0; $i < 100; $i++) {
+            $content .= $node;
+        }
+
+        $xml = <<<eot
+            <?xml version="1.0"?>
+            <root>
+                $content
+            </root>
+eot;
+    
+        $BUFFER_SIZE = 50;
+        $stream = $this->getStreamMock($xml, $BUFFER_SIZE);
+
+        $parser = new UniqueNode(array(
+            "uniqueNode" => "unknown"
+        ));
         
+        $memoryFootprintBefore = strlen(serialize($parser));
+        
+        $parser->getNodeFrom($stream);
+
+        $memoryFootprintAfter = strlen(serialize($parser));
+
+        $this->assertLessThan(
+            $BUFFER_SIZE,
+            $memoryFootprintAfter - $memoryFootprintBefore,
+            "Memory shouldn't grow in an uncontrolled manner when the first node isn't found"
+        );
+    }
+
     public function test_uniqueNode_shortClosing_setting() {
         $node1 = <<<eot
             <child foo="Lorem" index="1" />
