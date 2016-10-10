@@ -1,0 +1,17 @@
+<root>
+    <do_not_capture>
+        <node>foo</node>
+    </do_not_capture>
+    <do_not_capture>
+        <node>foo</node>
+    </do_not_capture>
+    <do_not_capture>
+        <node>foo</node>
+    </do_not_capture>
+    <capture>
+        <node>foo</node>
+    </capture>
+    <capture>
+        <node>bar</node>
+    </capture>
+</root>

@@ -249,7 +249,9 @@ class UniqueNode implements ParserInterface
                     // The next course of action will be to find a closing tag
                     $this->nextAction = self::FIND_CLOSING_TAG_ACTION;
                 }
-            } else if ($this->nextAction === self::FIND_CLOSING_TAG_ACTION) {
+            }
+            
+            if ($this->nextAction === self::FIND_CLOSING_TAG_ACTION) {
                 // Try to find a closing tag
                 $positionInBlob = $this->getClosingTagPos();
                 if ($positionInBlob !== false) {
