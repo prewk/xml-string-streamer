@@ -19,6 +19,6 @@
     },
     "require-dev": {
         "prewk/xml-faker": "0.0.2",
-        "mockery/mockery": "dev-master"
+        "mockery/mockery": "0.8.0"
     }
 }
