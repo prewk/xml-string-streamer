@@ -230,7 +230,7 @@ class XmlStringStreamerIntegrationTest extends PHPUnit_Framework_TestCase
         $file = __dir__ . "/../../xml/short_last_chunk.xml";
 
         $stream = new XmlStringStreamer\Stream\File($file, 200);
-        $parser = $parser = new UniqueNode(["uniqueNode" => 'capture']);
+        $parser = $parser = new UniqueNode(array("uniqueNode" => 'capture'));
         $streamer = new XmlStringStreamer($parser, $stream);
 
         $foundNodes = 0;
