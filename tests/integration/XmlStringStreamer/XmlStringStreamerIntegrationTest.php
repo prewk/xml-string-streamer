@@ -224,4 +224,20 @@ class XmlStringStreamerIntegrationTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($expectedNodes, $foundNodes, "The found nodes should equal the expected nodes");
     }
+
+    public function test_UniqueNode_parser_with_file_with_data_in_last_chunk()
+    {
+        $file = __dir__ . "/../../xml/short_last_chunk.xml";
+
+        $stream = new XmlStringStreamer\Stream\File($file, 200);
+        $parser = $parser = new UniqueNode(array("uniqueNode" => 'capture'));
+        $streamer = new XmlStringStreamer($parser, $stream);
+
+        $foundNodes = 0;
+        while ($node = $streamer->getNode()) {
+            $foundNodes++;
+        }
+
+        $this->assertEquals(2, $foundNodes, "The found nodes should equal the expected nodes number.");
+    }
 }
