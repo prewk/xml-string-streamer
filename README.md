@@ -121,7 +121,7 @@ $options = array(
     "captureDepth" => 3
 );
 
-$parser = new Parser\StringWalker($streamProvider, $options);
+$parser = new Parser\StringWalker($options);
 ````
 
 ### Available options for the StringWalker parser
@@ -238,7 +238,7 @@ $options = array(
     "uniqueNode" => "TheNodeToCapture"
 );
 
-$parser = new Parser\UniqueNode($streamProvider, $options);
+$parser = new Parser\UniqueNode($options);
 ````
 
 ### Available options for the UniqueNode parser
