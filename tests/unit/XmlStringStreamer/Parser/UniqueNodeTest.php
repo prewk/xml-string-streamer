@@ -25,6 +25,17 @@ class UniqueNodeTest extends PHPUnit_Framework_TestCase
         return $stream;
     }
 
+    public function test_uniqueNode_empty_xml()
+    {
+        $stream = $this->getStreamMock("", 1024);
+
+        $parser = new UniqueNode(array(
+            "uniqueNode" => "child"
+        ));
+
+        $this->assertFalse($parser->getNodeFrom($stream), "An empty stream should just exit nicely");
+    }
+
     public function test_uniqueNode_setting()
     {
         $node1 = <<<eot

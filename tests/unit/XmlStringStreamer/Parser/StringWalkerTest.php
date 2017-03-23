@@ -26,6 +26,15 @@ class StringWalkerTest extends PHPUnit_Framework_TestCase
         return $stream;
     }
 
+    public function test_stringWalker_empty_xml()
+    {
+        $stream = $this->getStreamMock("", 1024);
+
+        $parser = new StringWalker();
+
+        $this->assertFalse($parser->getNodeFrom($stream), "An empty stream should just exit nicely");
+    }
+
     public function test_default_options()
     {
         $node1 = <<<eot

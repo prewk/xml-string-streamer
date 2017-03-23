@@ -201,7 +201,7 @@ class UniqueNode implements ParserInterface
 
         if ($chunk === false) {
             // EOF
-            if ($this->hasSearchedUntilPos === -1) {
+            if ($this->hasSearchedUntilPos === -1 && strlen($this->workingBlob) > 0) {
                 // EOF, but we haven't even started searching, special case that probably means we're dealing with a file of less size than the stream buffer
                 // Therefore, keep looping
                 return true;
