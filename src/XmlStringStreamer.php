@@ -40,6 +40,11 @@ class XmlStringStreamer
         $this->stream = $stream;
     }
 
+    public function foo()
+    {
+        return "bar";
+    }
+
     /**
      * Convenience method for creating a StringWalker parser with a File stream
      * @param  string|resource $file    File path or handle
