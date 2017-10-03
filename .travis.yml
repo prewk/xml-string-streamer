@@ -1,4 +1,5 @@
 language: php
+dist: precise # Supports PHP 5.3
 php:
     - nightly
     - 7.1
