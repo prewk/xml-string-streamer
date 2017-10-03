@@ -227,6 +227,7 @@ class StringWalker implements ParserInterface
                 $this->depth += $depth;
 
                 $flush = false;
+                $captureOnce = false;
 
                 // Capture or don't?
                 if ($this->depth === $this->options["captureDepth"] && $depth > 0) {
@@ -242,10 +243,14 @@ class StringWalker implements ParserInterface
                 } else if ($this->options["extractContainer"] && $this->depth < $this->options["captureDepth"]) {
                     // We're outside of our capture scope, save to the special buffer if extractContainer is true
                     $this->containerXml .= $element;
+                } else if ($depth === 0 && $this->depth + 1 === $this->options["captureDepth"]) {
+                    // Self-closing element - capture this element and flush but don't start capturing everything yet
+                    $captureOnce = true;
+                    $flush = true;
                 }
 
                 // Capture the last retrieved node
-                if ($this->capture) {
+                if ($this->capture || $captureOnce) {
                     $this->shaved .= $data;
                 }
 

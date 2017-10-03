@@ -315,7 +315,7 @@ eot;
         $stream = $this->getStreamMock($xml, 50);
         
         $parser = new StringWalker();
-        
+
         $this->assertEquals(
             trim($node1),
             trim($parser->getNodeFrom($stream)),
@@ -334,6 +334,33 @@ eot;
         $this->assertFalse(
             false,
             "When no nodes are left, false should be returned"
+        );
+    }
+
+    public function test_self_closing_elements_at_depth()
+    {
+        $xml = <<<eot
+            <?xml version="1.0" ?>
+            <root>
+              <foo>baz</foo>
+              <bar />
+            </root>
+eot;
+
+        $stream = $this->getStreamMock($xml, 50);
+
+        $parser = new StringWalker([
+            "captureDepth" => 2,
+        ]);
+
+        $this->assertEquals(
+            trim("<foo>baz</foo>"),
+            trim($parser->getNodeFrom($stream))
+        );
+
+        $this->assertEquals(
+            trim("<bar />"),
+            trim($parser->getNodeFrom($stream))
         );
     }
 
