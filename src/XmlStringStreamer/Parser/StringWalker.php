@@ -233,7 +233,7 @@ class StringWalker implements ParserInterface
                 if ($this->depth === $this->options["captureDepth"] && $depth > 0) {
                     // Yes, we've just entered capture depth, start capturing
                     $this->capture = true;
-                } else if ($this->depth === $this->options["captureDepth"] - 1 && $depth < 0) {
+                } else if ($this->depth === $this->options["captureDepth"] - 1 && $depth <= 0) {
                     // No, we've just exited capture depth, stop capturing and prepare for flush      
                     $flush = true;
                     $this->capture = false;
