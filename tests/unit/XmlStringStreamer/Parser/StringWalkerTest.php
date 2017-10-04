@@ -349,9 +349,9 @@ eot;
 
         $stream = $this->getStreamMock($xml, 50);
 
-        $parser = new StringWalker([
+        $parser = new StringWalker(array(
             "captureDepth" => 2,
-        ]);
+        ));
 
         $this->assertEquals(
             trim("<foo>baz</foo>"),
