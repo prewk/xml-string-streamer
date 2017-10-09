@@ -99,8 +99,8 @@ class XmlStringRewindableStreamer extends XmlStringStreamer {
             if( count( $this->rewindBuffer ) > $this->readIndex ) {
                 $node = $this->rewindBuffer[ $this->readIndex++ ];
             } else {
-                $this->removeRewindPoint();
-                $node = parent::getNode();
+                $this->mode = self::BUFFERING;
+                $node = $this->getNode();
             }
 
         } else {
