@@ -36,7 +36,7 @@ class XmlStringRewindableStreamer extends XmlStringStreamer {
     /**
      * @var int indicate operating mode, affects the behaviour of {@link getNode}
      */
-    protected $mode = NOT_BUFFERING;
+    protected $mode = static::NOT_BUFFERING;
 
     /**
      * @var int last read position of {@link rewindBuffer}
@@ -94,19 +94,19 @@ class XmlStringRewindableStreamer extends XmlStringStreamer {
 
         $node = null;
 
-        if( self::REWIND == $this->mode ) {
+        if( static::REWIND == $this->mode ) {
 
             if( count( $this->rewindBuffer ) > $this->readIndex ) {
                 $node = $this->rewindBuffer[ $this->readIndex++ ];
             } else {
-                $this->mode = self::BUFFERING;
+                $this->mode = static::BUFFERING;
                 $node = $this->getNode();
             }
 
         } else {
 
             $node = parent::getNode();
-            if( self::BUFFERING == $this->mode && false !== $node ) {
+            if( static::BUFFERING == $this->mode && false !== $node ) {
                 $this->rewindBuffer[] = $node;
             }
 
