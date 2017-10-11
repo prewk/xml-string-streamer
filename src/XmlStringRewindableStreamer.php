@@ -36,7 +36,7 @@ class XmlStringRewindableStreamer extends XmlStringStreamer {
     /**
      * @var int indicate operating mode, affects the behaviour of {@link getNode}
      */
-    protected $mode = static::NOT_BUFFERING;
+    protected $mode = self::NOT_BUFFERING;
 
     /**
      * @var int last read position of {@link rewindBuffer}
