@@ -50,7 +50,7 @@ class XmlStringStreamer
     {
         $stream = new Stream\File($file, 16384);
         $parser = new Parser\StringWalker($options);
-        return new XmlStringStreamer($parser, $stream);
+        return new static($parser, $stream);
     }
 
     /**
@@ -63,7 +63,7 @@ class XmlStringStreamer
     {
         $stream = new Stream\File($file, 16384);
         $parser = new Parser\UniqueNode($options);
-        return new XmlStringStreamer($parser, $stream);
+        return new static($parser, $stream);
     }
 
     /**
