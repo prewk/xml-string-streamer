@@ -37,12 +37,6 @@ class UniqueNode implements ParserInterface
     private $startPos = 0;
 
     /**
-     * Keeps track of whether we've found the first node yet
-     * @var  bool
-     */
-    private $firstNodeFound = false;
-
-    /**
      * Records how far we've searched in the XML blob so far
      * @var integer
      */
@@ -209,14 +203,15 @@ class UniqueNode implements ParserInterface
             return false;
         } else {
             // New chunk fetched
-            if (!$this->firstNodeFound && !$this->options["extractContainer"]) {
+
+            if ($this->nextAction === self::FIND_OPENING_TAG_ACTION && !$this->options["extractContainer"]) {
                 // Prevent a memory leak if we never find our first node, throw away our old stuff
                 // but keep some letters to not cut off a first node
                 $this->workingBlob = substr($this->workingBlob, -1 * strlen("<" . $this->options["uniqueNode"] . ">")) . $chunk;
             } else {
                 $this->workingBlob .= $chunk;
             }
-            
+
             return true;
         }
     }
@@ -235,8 +230,6 @@ class UniqueNode implements ParserInterface
                 $positionInBlob = $this->getOpeningTagPos();
 
                 if ($positionInBlob !== false) {
-                    // We found it, start salvaging
-                    $this->firstNodeFound = true;
 
                     if ($this->options["extractContainer"] && $this->preCapture) {
                         $this->containerXml .= substr($this->workingBlob, 0, $positionInBlob);
@@ -250,7 +243,7 @@ class UniqueNode implements ParserInterface
                     $this->nextAction = self::FIND_CLOSING_TAG_ACTION;
                 }
             }
-            
+
             if ($this->nextAction === self::FIND_CLOSING_TAG_ACTION) {
                 // Try to find a closing tag
                 $positionInBlob = $this->getClosingTagPos();
