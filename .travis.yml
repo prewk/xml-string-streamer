@@ -2,6 +2,8 @@ language: php
 dist: precise # Supports PHP 5.3
 php:
     - nightly
+    - 7.3
+    - 7.2
     - 7.1
     - 7.0
     - 5.6
