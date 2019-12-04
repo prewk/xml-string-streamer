@@ -1,15 +1,21 @@
 language: php
-dist: precise # Supports PHP 5.3
-php:
+dist: xenial
+
+matrix:
+  include:
+    - php: 5.3
+      dist: precise
+    - php: 5.4
+      dist: precise
+    - php: 5.5
+      dist: precise
+    - php: 5.6
+    - php: 7.0
+    - php: 7.1
+    - php: 7.2
+    - php: 7.3
+    - php: 7.4
     - nightly
-    - 7.3
-    - 7.2
-    - 7.1
-    - 7.0
-    - 5.6
-    - 5.5
-    - 5.4
-    - 5.3
 
 before_script: composer install
 script: vendor/bin/phpunit
