@@ -14,6 +14,9 @@
             "Prewk\\": "src/"
         }
     },
+    "scripts": {
+        "test": "phpunit"
+    },
     "require": {
         "php": ">=5.3"
     },

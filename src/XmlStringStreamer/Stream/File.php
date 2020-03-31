@@ -67,6 +67,6 @@ class File implements StreamInterface
         }
 
         $this->readBytes = 0;
-        $this->rewind($this->handle);
+        rewind($this->handle);
     }
 }
