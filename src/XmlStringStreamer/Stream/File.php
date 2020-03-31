@@ -1,5 +1,6 @@
 <?php namespace Prewk\XmlStringStreamer\Stream;
 
+use Exception;
 use Prewk\XmlStringStreamer\StreamInterface;
 
 class File implements StreamInterface
@@ -50,5 +51,22 @@ class File implements StreamInterface
         } else {
             return false;
         }
+    }
+
+    public function isSeekable()
+    {
+        $meta = stream_get_meta_data($this->handle);
+
+        return $meta["seekable"];
+    }
+
+    public function rewind()
+    {
+        if (!$this->isSeekable()) {
+            throw new Exception("Attempted to rewind an unseekable stream");
+        }
+
+        $this->readBytes = 0;
+        $this->rewind($this->handle);
     }
 }
