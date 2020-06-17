@@ -51,8 +51,6 @@ class File implements StreamInterface
             }
             
             return $buffer;
-        } else if (is_resource($this->handle)) {
-            return false;
         } else {
             return false;
         }
