@@ -51,9 +51,9 @@ class File implements StreamInterface
             }
             
             return $buffer;
-        } else {
-            return false;
         }
+        
+        return false;
     }
 
     public function isSeekable()
