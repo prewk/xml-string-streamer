@@ -33,6 +33,12 @@ class File implements StreamInterface
         $this->chunkSize = $chunkSize;
         $this->chunkCallback = $chunkCallback;
     }
+    
+    public function __destruct() {
+        if (is_resource($this->handle)) {
+            fclose($this->handle);
+        }
+    }
 
     public function getChunk()
     {
@@ -45,12 +51,9 @@ class File implements StreamInterface
             }
             
             return $buffer;
-        } else if (is_resource($this->handle)) {
-            fclose($this->handle);
-            return false;
-        } else {
-            return false;
         }
+        
+        return false;
     }
 
     public function isSeekable()
