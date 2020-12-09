@@ -2,10 +2,10 @@
 
 namespace Prewk;
 
-use \PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use \Mockery;
 
-class XmlStringStreamerTest extends PHPUnit_Framework_TestCase
+class XmlStringStreamerTest extends TestCase
 {
     public function test_getNode()
     {

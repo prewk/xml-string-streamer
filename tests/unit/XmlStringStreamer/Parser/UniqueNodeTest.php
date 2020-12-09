@@ -2,10 +2,10 @@
 
 namespace Prewk\XmlStringStreamer\Parser;
 
-use \PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use \Mockery;
 
-class UniqueNodeTest extends PHPUnit_Framework_TestCase
+class UniqueNodeTest extends TestCase
 {
     private function getStreamMock($fullString, $bufferSize)
     {
@@ -183,12 +183,11 @@ eot;
         );
     }
 
-    /**
-     * @expectedException Exception
-     */
     public function test_requires_uniqueNode_setting()
     {
-        $parser = new UniqueNode;
+        $this->expectException(\Exception::class);
+
+        new UniqueNode;
     }
 
     public function test_multiple_roots()
