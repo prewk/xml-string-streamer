@@ -8,6 +8,11 @@ To stream XML files too big to fit into memory, with very low memory consumption
 Installation
 ------------
 
+### Legacy support
+
+* All versions below 1 support PHP 5.3 - 7.2
+* Version 1 and above support PHP 7.3+
+
 ### With composer
 
 Run `composer require prewk/xml-string-streamer` to install this package.
