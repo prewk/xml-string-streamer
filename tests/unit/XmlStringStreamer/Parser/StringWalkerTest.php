@@ -2,10 +2,10 @@
 
 namespace Prewk\XmlStringStreamer\Parser;
 
-use \PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use \Mockery;
 
-class StringWalkerTest extends PHPUnit_Framework_TestCase
+class StringWalkerTest extends TestCase
 {
     
     private function getStreamMock($fullString, $bufferSize)

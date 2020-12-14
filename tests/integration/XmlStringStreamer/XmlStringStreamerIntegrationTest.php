@@ -2,13 +2,12 @@
 
 namespace Prewk;
 
-use PHPUnit_Framework_TestCase;
-use Mockery;
+use PHPUnit\Framework\TestCase;
 use Prewk\XmlStringStreamer\Parser\StringWalker;
 use Prewk\XmlStringStreamer\Parser\UniqueNode;
 use Prewk\XmlStringStreamer\Stream\File;
 
-class XmlStringStreamerIntegrationTest extends PHPUnit_Framework_TestCase
+class XmlStringStreamerIntegrationTest extends TestCase
 {
     public function test_incomplete_file_with_StringWalker()
     {
