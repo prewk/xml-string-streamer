@@ -89,10 +89,10 @@ class FileIntegrationTest extends TestCase
             $this->markTestSkipped("allow_url_fopen is disabled");
         }
 
-        $chunk1 = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<!DOCTYPE PubmedArticleSet";
-        $bufferSize = 65;
+        $chunk1 = "<?xml version=\"1.0\" encoding=\"iso-8859-1\" ?>\n<!DOCTYPE html PUBLIC";
+        $bufferSize = 66;
 
-        $url = "ftp://ftp.ncbi.nlm.nih.gov/pubmed/sample-2019-01-01/example.xml";
+        $url = "https://www.w3.org/TR/2001/REC-xml-c14n-20010315";
         $stream = new File($url, $bufferSize);
 
         $this->assertEquals($chunk1, $stream->getChunk(), "First chunk received from the stream should be as expected");
