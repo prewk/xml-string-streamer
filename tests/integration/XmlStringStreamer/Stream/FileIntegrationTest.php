@@ -92,7 +92,7 @@ class FileIntegrationTest extends TestCase
         $chunk1 = "<?xml version=\"1.0\" encoding=\"iso-8859-1\" ?>\n<!DOCTYPE html PUBLIC";
         $bufferSize = 66;
 
-        $url = "https://www.w3.org/TR/2001/REC-xml-c14n-20010315";
+        $url = "http://www.w3.org/TR/2001/REC-xml-c14n-20010315";
         $stream = new File($url, $bufferSize);
 
         $this->assertEquals($chunk1, $stream->getChunk(), "First chunk received from the stream should be as expected");
