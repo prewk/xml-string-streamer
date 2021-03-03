@@ -60,8 +60,8 @@ class FileIntegrationTest extends TestCase
 
     public function test_compressed_file()
     {
-        if (!extension_loaded('zlib')) {
-            $this->markTestSkipped('zlib extension not installed');
+        if (!extension_loaded("zlib")) {
+            $this->markTestSkipped("zlib extension is not installed");
         }
 
         $chunk1 = "1234567890";
@@ -70,17 +70,32 @@ class FileIntegrationTest extends TestCase
         $full = $chunk1 . $chunk2;
 
         $tmpFile = tempnam(sys_get_temp_dir(), "xmlss-phpunit");
-        $wp = fopen('compress.zlib://' . $tmpFile, 'wb');
+        $wp = fopen("compress.zlib://$tmpFile", "wb");
         fwrite($wp, $full, $bufferSize);
         fclose($wp);
 
         file_put_contents($tmpFile, $full);
 
-        $stream = new File('compress.zlib://' . $tmpFile, $bufferSize);
+        $stream = new File("compress.zlib://$tmpFile", $bufferSize);
 
         $this->assertEquals($stream->getChunk(), $chunk1, "First chunk received from the stream should be as expected");
         $this->assertEquals($stream->getChunk(), $chunk2, "Second chunk received from the stream should be as expected");
         $this->assertEquals($stream->getChunk(), false, "Third chunk received from the stream should be false");
+    }
+
+    public function test_remote_stream()
+    {
+        if (ini_get("allow_url_fopen") !== "1") {
+            $this->markTestSkipped("allow_url_fopen is disabled");
+        }
+
+        $chunk1 = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<!DOCTYPE PubmedArticleSet";
+        $bufferSize = 65;
+
+        $url = "ftp://ftp.ncbi.nlm.nih.gov/pubmed/sample-2019-01-01/example.xml";
+        $stream = new File($url, $bufferSize);
+
+        $this->assertEquals($chunk1, $stream->getChunk(), "First chunk received from the stream should be as expected");
     }
 
     public function test_rewind()
