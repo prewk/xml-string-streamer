@@ -13,19 +13,33 @@ class File implements StreamInterface
     public function __construct($mixed, $chunkSize = 16384, $chunkCallback = null)
     {
         if (is_string($mixed)) {
-            // Treat as filename
-            if (!file_exists($mixed)) {
-                throw new \Exception("File '$mixed' doesn't exist");
+            // Account for common stream/URL wrappers before checking if a file exists
+            $realPath = $mixed;
+            if (preg_match('/^([\w.]+):\/\//', $realPath, $matched)) {
+                if (preg_match('/(http|ftp|php|data|ssh2)/', $matched[1])) {
+                    // Disable file_exists() check
+                    $realPath = null;
+                } else {
+                    // Remove wrapper for file_exists() check.
+                    $realPath = substr($realPath, strlen($matched[0]));
+                }
+                switch ($matched[1]) {
+                    default:
+                        $filePath = null;
+                }
             }
-            $this->handle = fopen($mixed, "rb");
+            // If there's a real disk path to check, make sure it exists
+            if ($realPath !== null && !file_exists($realPath)) {
+                throw new \Exception("File '$realPath' doesn't exist");
+            }
+            $this->handle = fopen($mixed, 'rb');
             $this->handle;
-        } else if (get_resource_type($mixed) == "stream") {
-            // Treat as file handle
+        } elseif (is_resource($mixed) && get_resource_type($mixed) === "stream") {
             $this->handle = $mixed;
         } else {
             throw new \Exception("First argument must be either a filename or a file handle");
         }
-        
+
         if ($this->handle === false) {
             throw new \Exception("Couldn't create file handle");
         }
@@ -33,7 +47,7 @@ class File implements StreamInterface
         $this->chunkSize = $chunkSize;
         $this->chunkCallback = $chunkCallback;
     }
-    
+
     public function __destruct() {
         if (is_resource($this->handle)) {
             fclose($this->handle);
@@ -49,10 +63,10 @@ class File implements StreamInterface
             if (is_callable($this->chunkCallback)) {
                 call_user_func_array($this->chunkCallback, array($buffer, $this->readBytes));
             }
-            
+
             return $buffer;
         }
-        
+
         return false;
     }
 
@@ -72,4 +86,7 @@ class File implements StreamInterface
         $this->readBytes = 0;
         rewind($this->handle);
     }
+
+    private function getFilePath($str)
+    {}
 }
