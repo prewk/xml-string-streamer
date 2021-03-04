@@ -23,10 +23,6 @@ class File implements StreamInterface
                     // Remove wrapper for file_exists() check.
                     $realPath = substr($realPath, strlen($matched[0]));
                 }
-                switch ($matched[1]) {
-                    default:
-                        $filePath = null;
-                }
             }
             // If there's a real disk path to check, make sure it exists
             if ($realPath !== null && !file_exists($realPath)) {
@@ -86,7 +82,4 @@ class File implements StreamInterface
         $this->readBytes = 0;
         rewind($this->handle);
     }
-
-    private function getFilePath($str)
-    {}
 }
