@@ -77,6 +77,8 @@ class UniqueNode implements ParserInterface
      */
     public function __construct(array $options = array())
     {
+        $this->reset();
+
         $this->options = array_merge(array(
             "extractContainer" => false,
         ), $options);
@@ -282,5 +284,26 @@ class UniqueNode implements ParserInterface
         }
 
         return $this->containerXml;
+    }
+
+    /**
+     * @internal
+     * @return string
+     */
+    public function getCurrentWorkingBlob()
+    {
+        return $this->workingBlob;
+    }
+
+    public function reset()
+    {
+        $this->workingBlob = '';
+        $this->flushed = '';
+        $this->startPos = 0;
+        $this->hasSearchedUntilPos = -1;
+        $this->nextAction = 0;
+        $this->shortClosedTagNow = false;
+        $this->containerXml = '';
+        $this->preCapture = true;
     }
 }

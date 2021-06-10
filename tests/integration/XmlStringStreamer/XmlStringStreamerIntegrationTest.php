@@ -239,4 +239,44 @@ class XmlStringStreamerIntegrationTest extends TestCase
 
         $this->assertEquals(2, $foundNodes, "The found nodes should equal the expected nodes number.");
     }
+
+    public function test_UniqueNode_parser_reset_working_blob()
+    {
+        $file = __dir__ . "/../../xml/rewind_working_blob.xml";
+
+        $stream = new XmlStringStreamer\Stream\File($file, 50);
+        $parser = new UniqueNode(array("uniqueNode" => 'item'));
+        $streamer = new XmlStringStreamer($parser, $stream);
+
+        self::assertSame('<item>0</item>', $streamer->getNode());
+        self::assertSame('<item>1</item>', $streamer->getNode());
+        self::assertSame('<item>2</item>', $streamer->getNode());
+
+        // at this stage, internal working blob in parser has "preloaded" one extra valid item
+        self::assertSame("\n    <item>3</item>\n    <item>4</item", $parser->getCurrentWorkingBlob());
+
+        $stream->rewind();
+        // because internal working blob had one extra valid item, we still get it
+        self::assertSame('<item>3</item>', $streamer->getNode());
+
+        // now  next item will result into fetching previous working blob plus beginning of file after rewinding
+        self::assertSame("<item>4</item<root>\n    <item>0</item>", $streamer->getNode());
+
+        self::assertSame('<item>1</item>', $streamer->getNode());
+        self::assertSame('<item>2</item>', $streamer->getNode());
+
+        $stream->rewind(); // rewind stream again
+        $parser->reset(); // but now also reset internal working blob
+
+        self::assertSame('<item>0</item>', $streamer->getNode());
+        self::assertSame('<item>1</item>', $streamer->getNode());
+        self::assertSame('<item>2</item>', $streamer->getNode());
+
+        self::assertSame("\n    <item>3</item>\n    <item>4</item", $parser->getCurrentWorkingBlob());
+        $parser->reset();
+        self::assertSame('', $parser->getCurrentWorkingBlob());
+
+        // in opposite case, reseting blob without rewinding will jump over 2 items
+        self::assertSame('<item>5</item>', $streamer->getNode());
+    }
 }

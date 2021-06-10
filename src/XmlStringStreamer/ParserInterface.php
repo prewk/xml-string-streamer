@@ -31,4 +31,13 @@ interface ParserInterface
      * @return string XML string
      */
     public function getExtractedContainer();
+
+    /**
+     * Reset all Parser internal caches, working blobs, working chunks etc.
+     *
+     * you have to Reset Parser state in case of rewinding Stream (or other Stream manipulation like seek)
+     *
+     * @return void
+     */
+    public function reset();
 }
