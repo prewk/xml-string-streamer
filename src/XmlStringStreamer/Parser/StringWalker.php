@@ -71,6 +71,8 @@ class StringWalker implements ParserInterface
      */
     public function __construct(array $options = array())
     {
+        $this->reset();
+
         $this->options = array_merge(array(
             "captureDepth" => 2,
             "expectGT" => false,
@@ -265,5 +267,16 @@ class StringWalker implements ParserInterface
         }
 
         return false;
-	}
+    }
+
+    public function reset()
+    {
+        $this->firstRun = true;
+        $this->depth = 0;
+        $this->chunk = '';
+        $this->lastChunk = null;
+        $this->shaved = null;
+        $this->capture = false;
+        $this->containerXml = "";
+    }
 }

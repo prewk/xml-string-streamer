@@ -279,4 +279,42 @@ class XmlStringStreamerIntegrationTest extends TestCase
         // in opposite case, reseting blob without rewinding will jump over 2 items
         self::assertSame('<item>5</item>', $streamer->getNode());
     }
+
+    public function test_StringWalker_parser_reset_working_blob()
+    {
+        $file = __dir__ . "/../../xml/rewind_working_blob.xml";
+
+        $stream = new XmlStringStreamer\Stream\File($file, 80);
+        $parser = new XmlStringStreamer\Parser\StringWalker();
+        $streamer = new XmlStringStreamer($parser, $stream);
+
+        self::assertSame("\n    <item>0</item>", $streamer->getNode());
+        self::assertSame("\n    <item>1</item>", $streamer->getNode());
+        self::assertSame("\n    <item>2</item>", $streamer->getNode());
+
+        $stream->rewind();
+        // after rewind, previous part of chunk with beginning of file is current node
+        self::assertSame("\n    <item>3</ite<root>", $streamer->getNode());
+
+        // but after that, we are able to get proper nodes (depends on chunk length)
+        self::assertSame("\n    <item>0</item>", $streamer->getNode());
+        self::assertSame("\n    <item>1</item>", $streamer->getNode());
+        self::assertSame("\n    <item>2</item>", $streamer->getNode());
+
+        $stream->rewind();
+        $parser->reset();
+        // now rewind and reset will cause proper loading from beginning of file
+        self::assertSame("\n    <item>0</item>", $streamer->getNode());
+        self::assertSame("\n    <item>1</item>", $streamer->getNode());
+        self::assertSame("\n    <item>2</item>", $streamer->getNode());
+
+        // in opposite, just resetting parser without rewinding will cause false as result - unable to retrieve
+        $parser->reset();
+        self::assertFalse($streamer->getNode());
+
+        // it is possible to recover by rewind/reset again
+        $stream->rewind();
+        $parser->reset();
+        self::assertSame("\n    <item>0</item>", $streamer->getNode());
+    }
 }
