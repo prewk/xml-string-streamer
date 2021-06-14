@@ -27,13 +27,13 @@ class StringWalker implements ParserInterface
      * Is this the first run?
      * @var boolean
      */
-    protected $firstRun = true;
+    protected $firstRun;
 
     /**
      * What depth are we currently at?
      * @var integer
      */
-    protected $depth = 0;
+    protected $depth;
 
     /**
      * The latest chunk from the stream
@@ -51,22 +51,22 @@ class StringWalker implements ParserInterface
      * XML node in the making
      * @var null|string
      */
-    protected $shaved = null;
+    protected $shaved;
 
     /**
      * Whether to capture or not
      * @var boolean
      */
-    protected $capture = false;
+    protected $capture;
 
     /**
      * If extractContainer is true, this will grow with the XML captured before and after the specified capture depth
      * @var string
      */
-    protected $containerXml = "";
+    protected $containerXml;
 
     /**
-     * Parser contructor
+     * Parser constructor
      * @param array $options An options array
      */
     public function __construct(array $options = array())
