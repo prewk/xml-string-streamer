@@ -18,57 +18,57 @@ use Prewk\XmlStringStreamer\StreamInterface;
  */
 class UniqueNode implements ParserInterface
 {
+    const FIND_OPENING_TAG_ACTION = 0;
+    const FIND_CLOSING_TAG_ACTION = 1;
+
     /**
      * Current working XML blob
      * @var string
      */
-    private $workingBlob = "";
+    private $workingBlob;
 
     /**
      * The flushed node
      * @var string
      */
-    private $flushed = "";
+    private $flushed;
 
     /**
      * Start position of the given element in the workingBlob
      * @var integer
      */
-    private $startPos = 0;
+    private $startPos;
 
     /**
      * Records how far we've searched in the XML blob so far
      * @var integer
      */
-    private $hasSearchedUntilPos = -1;
-
-    const FIND_OPENING_TAG_ACTION = 0;
-    const FIND_CLOSING_TAG_ACTION = 1;
+    private $hasSearchedUntilPos;
 
     /**
      * Next action to perform
      * @var integer
      */
-    private $nextAction = 0;
+    private $nextAction;
 
     /**
      * Indicates short closing tag
      * @var bool
      */
 
-    private $shortClosedTagNow = false;
+    private $shortClosedTagNow;
 
     /**
      * If extractContainer is true, this will grow with the XML captured before and after the specified capture depth
      * @var string
      */
-    protected $containerXml = "";
+    protected $containerXml;
 
     /**
      * Whether we're found our first capture target or not
      * @var bool
      */
-    protected $preCapture = true;
+    protected $preCapture;
 
     /**
      * Parser constructor
@@ -77,6 +77,8 @@ class UniqueNode implements ParserInterface
      */
     public function __construct(array $options = array())
     {
+        $this->reset();
+
         $this->options = array_merge(array(
             "extractContainer" => false,
         ), $options);
@@ -282,5 +284,26 @@ class UniqueNode implements ParserInterface
         }
 
         return $this->containerXml;
+    }
+
+    /**
+     * @internal
+     * @return string
+     */
+    public function getCurrentWorkingBlob()
+    {
+        return $this->workingBlob;
+    }
+
+    public function reset()
+    {
+        $this->workingBlob = '';
+        $this->flushed = '';
+        $this->startPos = 0;
+        $this->hasSearchedUntilPos = -1;
+        $this->nextAction = 0;
+        $this->shortClosedTagNow = false;
+        $this->containerXml = '';
+        $this->preCapture = true;
     }
 }
