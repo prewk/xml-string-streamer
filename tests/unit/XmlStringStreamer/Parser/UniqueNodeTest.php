@@ -263,4 +263,28 @@ eot;
             "When no nodes are left, false should be returned"
         );
     }
+    
+    public function test_orphan_closing_tag_is_ignored()
+    {
+        $expectedStringToBeFlushed = '<child>read this</child>';
+        $xml = <<<eot
+<?xml version="1.0"?>
+<root>
+    </child>
+    $expectedStringToBeFlushed
+</root>
+eot;
+        
+        $stream = $this->getStreamMock($xml, strlen($xml));
+        
+        $parser = new UniqueNode([
+            "uniqueNode" => "child"
+        ]);
+        
+        $this->assertEquals(
+            $expectedStringToBeFlushed,
+            $parser->getNodeFrom($stream),
+            "Orphan closing tag must not act as closing tag for first opening tag"
+        );
+    }
 }

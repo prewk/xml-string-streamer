@@ -317,4 +317,26 @@ class XmlStringStreamerIntegrationTest extends TestCase
         $parser->reset();
         self::assertSame("\n    <item>0</item>", $streamer->getNode());
     }
+    
+    public function test_UniqueNode_parser_stream_seeking()
+    {
+        $filePath = __dir__ . '/../../xml/stream_seeking.xml';
+        $fileHandle = fopen($filePath, 'rb');
+        
+        $stream = new XmlStringStreamer\Stream\File($fileHandle, 50);
+        $parser = new UniqueNode(["uniqueNode" => 'item']);
+        $streamer = new XmlStringStreamer($parser, $stream);
+        
+        self::assertSame('<item>first item to read</item>', $streamer->getNode());
+        
+        /**
+         * @see /tests/xml/stream_seeking.xml
+         * hash character is used as seek target in file, creating case where closing tag precedes opening tag
+         */
+        $seekTargetPosition = strpos(file_get_contents($filePath), '#');
+        fseek($fileHandle, $seekTargetPosition);
+        $parser->reset();
+        
+        self::assertSame('<item>second item to read</item>', $streamer->getNode());
+    }
 }
