@@ -134,7 +134,7 @@ class UniqueNode implements ParserInterface
      */
     protected function getClosingTagPos()
     {
-        $endPositionInBlob = strpos($this->workingBlob, "</" . $this->options["uniqueNode"] . ">");
+        $endPositionInBlob = strpos($this->workingBlob, "</" . $this->options["uniqueNode"] . ">", $this->startPos);
         if ($endPositionInBlob === false) {
 
             if (isset($this->options["checkShortClosing"]) && $this->options["checkShortClosing"] === true) {
