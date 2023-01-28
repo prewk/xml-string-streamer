@@ -71,6 +71,11 @@ class UniqueNode implements ParserInterface
     protected $preCapture;
 
     /**
+     * @var array<string, mixed>
+     */
+    private $options;
+
+    /**
      * Parser constructor
      * @param array $options An options array
      * @throws Exception if the required option uniqueNode isn't set
