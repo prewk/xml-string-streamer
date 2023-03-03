@@ -16,13 +16,8 @@ class File implements StreamInterface
             // Account for common stream/URL wrappers before checking if a file exists
             $realPath = $mixed;
             if (preg_match('/^([\w.]+):\/\//', $realPath, $matched)) {
-                if (preg_match('/(http|ftp|php|data|ssh2)/', $matched[1])) {
-                    // Disable file_exists() check
-                    $realPath = null;
-                } else {
-                    // Remove wrapper for file_exists() check.
-                    $realPath = substr($realPath, strlen($matched[0]));
-                }
+                // Disable file_exists() check
+                $realPath = null;
             }
             // If there's a real disk path to check, make sure it exists
             if ($realPath !== null && !file_exists($realPath)) {
